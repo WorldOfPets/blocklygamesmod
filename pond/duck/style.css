@@ -1,0 +1,90 @@
+#tabarea {
+  position: fixed !important;
+}
+
+#about {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  box-shadow: var(--shadow);
+  bottom: 10px;
+  overflow-y: scroll;
+  position: fixed;
+}
+
+#about>* {
+  margin: 1em;
+}
+
+#docsButton:disabled {
+  color: #ccc;
+}
+
+/* Tabs */
+.tab {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  color: var(--ink-muted);
+  cursor: default;
+  font-size: .9rem;
+  padding: 4px 10px;
+  position: relative;
+  user-select: none;
+}
+
+.tab-bar>div {
+  border-bottom: 0;
+  float: left;
+  margin: 1px 4px 0 0;
+}
+
+.tab:hover:not(.tab-disabled) {
+  background: var(--bg);
+}
+
+.tab-disabled {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--line-strong);
+  cursor: not-allowed;
+}
+
+.tab-selected {
+  background: var(--accent-soft) !important; /* Selected trumps hover. */
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/*
+ * Shift selected tabs 1px towards the contents (and compensate via margin and
+ * padding) to visually merge the borders of the tab with the borders of the
+ * content area.
+ */
+.tab-bar>.tab-selected {
+  margin-top: 0;
+  padding-bottom: 5px;
+  top: 1px;
+}
+
+.tab-bar {
+  border: 0;
+  cursor: default;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  position: relative;
+}
+
+.tab-bar-clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+#avatar-select {
+  margin-top: 2px;
+  color: #fff;
+}

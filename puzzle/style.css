@@ -1,0 +1,33 @@
+body {
+  overflow: hidden;
+}
+
+#graph {
+  position: absolute;
+  bottom: 25px;
+  height: 12px;
+  width: 100px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  overflow: hidden;
+}
+#graphValue {
+  height: 12px;
+  width: 0;
+  background-color: var(--done);
+  transition-property: width;
+  transition-duration: 1s;
+}
+
+#blockly {
+  position: fixed;
+}
+
+#help {
+  overflow: hidden;
+}
+
+#sample {
+  height: 205px;
+  width: 300px;
+}

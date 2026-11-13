@@ -1,0 +1,529 @@
+/*
+ * Shared stylesheet for every Blockly Games app.
+ * Design language: flat, quiet, one accent colour, generous spacing.
+ */
+
+:root {
+  --surface: #ffffff;
+  --bg: #f6f8fa;
+  --toolbox: #eceff3;
+  --flyout: #f3f5f8;
+  --ink: #1f2328;
+  --ink-muted: #5f6368;
+  --line: #e2e6ea;
+  --line-strong: #c9d1d9;
+  --accent: #1a73e8;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8f0fe;
+  --done: #188038;
+  --done-soft: #e6f4ea;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 1px 2px rgba(60, 64, 67, .12), 0 4px 12px rgba(60, 64, 67, .12);
+  --shadow-lg: 0 2px 6px rgba(60, 64, 67, .18), 0 12px 32px rgba(60, 64, 67, .22);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.45;
+  margin-top: 0;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 1.35rem;
+  letter-spacing: -.01em;
+  margin: .6em 0 .4em;
+}
+
+h1 a {
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+a,
+a:visited {
+  color: var(--accent);
+}
+
+a:focus,
+a:hover {
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.farSide {
+  text-align: right;
+}
+
+html[dir="RTL"] .farSide {
+  text-align: left;
+}
+
+/* Page header: title and level tabs on the left, controls on the right. */
+.headerBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .25em 1em;
+  padding: .75em 1em .5em;
+}
+
+.headerBar h1 {
+  margin: 0;
+}
+
+#title a {
+  color: var(--ink-muted);
+}
+
+html[dir="RTL"] .headerBar {
+  flex-direction: row-reverse;
+}
+
+#header_cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .25em;
+}
+
+#header_cta>* {
+  vertical-align: middle;
+}
+
+/* Level tabs. */
+.level_number {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 12px;
+  color: var(--ink-muted);
+  background-color: var(--surface);
+  font-size: .9rem;
+  font-variant-numeric: tabular-nums;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+
+.level_dot {
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  background-color: var(--surface);
+  transition: background-color .15s, border-color .15s;
+}
+
+/* The number pill that carries .level_done is the level being played; a
+ * filled dot is a level already beaten. */
+.level_number.level_done {
+  background-color: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.level_dot.level_done {
+  background-color: var(--done-soft);
+  border-color: var(--done);
+}
+
+.level_dot:hover,
+.level_number:hover {
+  background-color: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Generated code panel inside the 'done' dialog. */
+#containerCode {
+  direction: ltr;
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin: 0 2ex;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow: auto;
+  max-height: 200px;
+}
+
+/* JavaScript / Python switch above the code panel. */
+.codeLangBar {
+  display: flex;
+  gap: 0;
+  margin: 0 2ex .6em;
+  direction: ltr;
+}
+
+.codeLang {
+  margin: 0;
+  padding: 5px 14px;
+  font-size: .85rem;
+  font-weight: 500;
+  line-height: 1.4;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background-color: var(--surface);
+  color: var(--ink-muted);
+}
+
+.codeLang + .codeLang {
+  border-left: 0;
+}
+
+.codeLang:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.codeLang:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.codeLang:not(.codeLangActive):hover:not(:disabled) {
+  background-color: var(--bg);
+  color: var(--ink);
+}
+
+.codeLang.codeLangActive {
+  background-color: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.codeLang:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+#containerStorage {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+img[src$="help.png"] {
+  height: 64px;
+  width: 64px;
+}
+
+html[dir="RTL"] .mirrorImg {
+  transform: scaleX(-1);
+}
+
+/* Controls. */
+#languageMenu {
+  margin: 12px 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: .9rem;
+  padding: 6px 8px;
+}
+
+select,
+input[type="text"] {
+  font-family: var(--font);
+  font-size: .95rem;
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  padding: 6px 8px;
+}
+
+xml {
+  display: none;
+}
+
+/* Buttons */
+button {
+  margin: 4px;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  font-family: var(--font);
+  font-size: .95rem;
+  font-weight: 500;
+  background-color: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s, box-shadow .15s, color .15s;
+}
+
+button.primary {
+  border: 1px solid var(--accent);
+  background-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+button.secondary {
+  border: 1px solid var(--accent);
+  background-color: var(--surface);
+  color: var(--accent);
+}
+
+button.primary:hover:not(:disabled),
+button.secondary:hover:not(:disabled) {
+  background-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+button.primary:hover:not(:disabled) {
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  filter: brightness(1.08);
+}
+
+button:not(.primary):not(.secondary):hover:not(:disabled) {
+  background-color: var(--bg);
+}
+
+button:hover:not(:disabled) {
+  box-shadow: var(--shadow);
+}
+
+button:active:not(:disabled) {
+  border-color: var(--ink-muted) !important;
+  box-shadow: none;
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+button>img {
+  opacity: .7;
+  vertical-align: text-bottom;
+}
+
+button.primary>img,
+button.secondary>img {
+  opacity: 1;
+}
+
+button:hover:not(:disabled)>img {
+  opacity: 1;
+}
+
+/* Dialogs */
+#dialog {
+  visibility: hidden;
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  position: absolute;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 14px;
+}
+
+#dialogBorder {
+  visibility: hidden;
+  position: absolute;
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+#dialogShadow {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #1f2328;
+  opacity: .4;
+}
+
+.dialogAnimate {
+  transition-property: width height left top opacity;
+  transition-duration: .18s;
+  transition-timing-function: cubic-bezier(.2, 0, 0, 1);
+}
+
+.dialogHiddenContent {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+#dialogHeader {
+  height: 24px;
+  margin: -14px -14px 14px;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  border-bottom: 1px solid var(--line);
+  background-color: var(--bg);
+  cursor: move;
+}
+
+#dialog button {
+  min-width: 4em;
+}
+
+#dialog p,
+.dialogHiddenContent p {
+  margin: .6em 0;
+}
+
+.readonly .blocklyMainBackground {
+  stroke: none;
+}
+
+#galleryForm>header {
+  font-size: larger;
+  font-weight: 500;
+}
+
+#galleryForm>* {
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+/* Blockly workspace: flat blocks instead of the classic 3D bevel. */
+.blocklyPathLight,
+.blocklyPathDark {
+  display: none;
+}
+
+/* The background rect is painted with the dot-grid pattern; don't set a fill
+ * here or the grid disappears. */
+.blocklyMainBackground {
+  stroke: var(--line);
+}
+
+#blockly>svg,
+.readonly>svg {
+  background-color: var(--surface);
+  border-radius: var(--radius);
+}
+
+/* The category column and the flyout are tinted so that they do not melt
+ * into the white workspace behind them. */
+.blocklyToolboxDiv {
+  background-color: var(--toolbox) !important;
+  border-right: 1px solid var(--line-strong);
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+html[dir="RTL"] .blocklyToolboxDiv {
+  border-right: 0;
+  border-left: 1px solid var(--line-strong);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.blocklyTreeRow {
+  background-color: transparent !important;
+  border-radius: 6px;
+}
+
+.blocklyTreeRow:not(.blocklyTreeSelected):hover {
+  background-color: var(--accent-soft) !important;
+}
+
+.blocklyTreeRow.blocklyTreeSelected {
+  background-color: var(--accent-soft) !important;
+}
+
+.blocklyToolboxDiv .blocklyTreeLabel {
+  color: var(--ink) !important;
+}
+
+.blocklyToolboxDiv .blocklyTreeSelected .blocklyTreeLabel {
+  color: var(--accent) !important;
+  font-weight: 500;
+}
+
+.blocklyTreeRowContentContainer {
+  padding: 2px 6px;
+}
+
+.blocklyTreeSeparator {
+  border-bottom: 1px solid var(--line);
+}
+
+.blocklyFlyoutBackground {
+  fill: var(--flyout);
+  fill-opacity: 1;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.blocklyFlyout {
+  filter: drop-shadow(2px 0 3px rgba(60, 64, 67, .1));
+}
+
+html[dir="RTL"] .blocklyFlyout {
+  filter: drop-shadow(-2px 0 3px rgba(60, 64, 67, .1));
+}
+
+.blocklyScrollbarBackground {
+  fill: transparent;
+}
+
+.blocklyScrollbarHandle {
+  fill: var(--line-strong);
+}
+
+.blocklyScrollbarHandle:hover {
+  fill: var(--ink-muted);
+}
+
+/* Sprited icons. */
+.icon21 {
+  height: 21px;
+  width: 21px;
+  background-image: url(icons.png);
+}
+
+.link {
+  background-position: 0 0;
+}
+
+.camera {
+  background-position: -21px 0;
+}
+
+.stop {
+  background-position: -42px 0;
+}
+
+.run {
+  background-position: -63px 0;
+}
+
+.gallery {
+  background-position: -63px -21px;
+}
+
+.close {
+  background-position: -42px -42px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

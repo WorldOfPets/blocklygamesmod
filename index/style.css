@@ -1,0 +1,206 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--bg);
+}
+
+#languageMenu {
+  position: absolute;
+  top: .5em;
+  box-shadow: none;
+}
+
+html[dir="LTR"] #languageMenu {
+  right: 1em;
+}
+
+html[dir="RTL"] #languageMenu {
+  left: 1em;
+}
+
+#header {
+  position: absolute;
+  top: 1em;
+  left: 20%;
+  right: 20%;
+  width: 60%;
+  text-align: center;
+}
+
+#banner {
+  padding: 1em;
+}
+
+#subtitle {
+  color: var(--ink-muted);
+  font-size: 1rem;
+}
+
+#subtitle a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+}
+
+#clearDataPara {
+  position: absolute;
+  bottom: 0;
+  margin: 1em;
+  color: var(--ink-muted);
+}
+
+#clearData {
+  padding: 6px 12px;
+  margin: 0 0 0 .5em;
+  font-size: .9rem;
+}
+
+/* Learning path. */
+#path {
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  fill: none;
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+  animation: dash .7s linear forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.iconBack {
+  fill: var(--surface);
+}
+
+.iconBorder {
+  stroke: var(--line);
+  stroke-width: 2;
+  fill: rgba(0, 0, 0, 0);
+  transition: stroke .15s, fill .15s;
+}
+
+a:focus > .iconBorder,
+a:hover > .iconBorder {
+  stroke: var(--accent);
+  fill: var(--accent-soft);
+}
+
+a:focus > text,
+a:hover > text {
+  fill: var(--accent);
+}
+
+.icon {
+  animation: pop .5s cubic-bezier(.5,.5,.5,1.5) forwards;
+  visibility: hidden;
+  filter: drop-shadow(0 2px 4px rgba(60, 64, 67, .18));
+}
+
+.icon text {
+  text-anchor: middle;
+  font-family: var(--font);
+  font-size: 16pt;
+  font-weight: 500;
+  fill: var(--ink);
+}
+
+#icon-puzzle {
+  animation-delay: .0s;
+}
+
+#icon-maze {
+  animation-delay: .1s;
+}
+
+#icon-bird {
+  animation-delay: .2s;
+}
+
+#icon-turtle {
+  animation-delay: .3s;
+}
+
+#icon-movie {
+  animation-delay: .4s;
+}
+
+#icon-music {
+  animation-delay: .5s;
+}
+
+#icon-pond-tutor {
+  animation-delay: .6s;
+}
+
+#icon-pond-duck {
+  animation-delay: .7s;
+}
+
+#back-puzzle {
+  animation-delay: .3s;
+}
+
+#back-maze {
+  animation-delay: .4s;
+}
+
+#back-bird {
+  animation-delay: .5s;
+}
+
+#back-turtle {
+  animation-delay: .6s;
+}
+
+#back-movie {
+  animation-delay: .7s;
+}
+
+#back-music {
+  animation-delay: .8s;
+}
+
+#back-pond-tutor {
+  animation-delay: .9s;
+}
+
+#back-pond-duck {
+  animation-delay: 1.0s;
+}
+
+@keyframes pop {
+  from {
+    transform: translate(150px, 50px) scale(0);
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+    visibility: visible;
+  }
+}
+
+/* Progress arc around each icon. */
+.gaugeBack {
+  stroke: var(--line);
+  stroke-width: 5;
+  fill: none;
+  animation: pop .1s linear forwards;
+  visibility: hidden;
+}
+
+.gaugeFront {
+  stroke: var(--done);
+  stroke-width: 6;
+  stroke-linecap: round;
+  fill: none;
+}
