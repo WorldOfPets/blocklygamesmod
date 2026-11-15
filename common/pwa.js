@@ -21,11 +21,17 @@
   }
 
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js').catch(function(error) {
-      // A missing sw.js is normal when the folder is opened from file:// or
-      // when the site is served by a host that does not allow service workers.
-      console.warn('Service worker registration failed:', error);
-    });
+    navigator.serviceWorker.register('sw.js', {updateViaCache: 'none'})
+        .then(function(registration) {
+          // Check for a new worker on every visit instead of waiting for the
+          // browser's 24-hour update timer.
+          registration.update().catch(function() {});
+        })
+        .catch(function(error) {
+          // A missing sw.js is normal when the folder is opened from file://
+          // or when the host does not allow service workers.
+          console.warn('Service worker registration failed:', error);
+        });
   });
 
   let deferredPrompt = null;

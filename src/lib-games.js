@@ -280,6 +280,21 @@ BlocklyGames.init = function(title) {
     window['BlocklyGamesTheme']['initSelector']();
   }
 
+  // "Blockly Games" in the header is an exit to the index.  Replace the
+  // current history entry so Back does not silently return to the game.
+  // The single-file build lets its bridge handle links instead.
+  const titleLink = document.querySelector('#title a');
+  if (titleLink && !window['BlocklyGamesStandalone']) {
+    titleLink.addEventListener('click', function(event) {
+      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey ||
+          event.metaKey || event.shiftKey || event.altKey) {
+        return;
+      }
+      event.preventDefault();
+      window.location.replace(titleLink.href);
+    }, false);
+  }
+
   // Highlight levels that have been completed.
   for (let i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
     const link = BlocklyGames.getElementById('level' + i);

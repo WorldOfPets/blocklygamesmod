@@ -30,6 +30,12 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.ai', true),
   <aside id="aiSidebar">
     <p id="aiHelp" class="aiHelp"></p>
     <p id="aiStats" class="aiStats" role="status" aria-live="polite"></p>
+    <p id="aiTestInfo" class="aiTestInfo" role="status" aria-live="polite" hidden></p>
+
+    <details class="aiExplain"${ij.level <= 3 ? ' open' : ''}>
+      <summary>${BlocklyGames.getMsg('AI.howTitle', true)}</summary>
+      <div class="aiExplainBody">${BlocklyGames.getMsg('AI.howBody', false)}</div>
+    </details>
 
     <div class="aiGroup" role="group"
         aria-label="${BlocklyGames.getMsg('AI.brushGroup', true)}">
@@ -46,6 +52,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.ai', true),
       <output id="aiKValue" for="aiK">3</output>
     </label>
     <input type="range" id="aiK" min="1" max="15" step="2" value="3">
+    <p class="aiKHelp">${BlocklyGames.getMsg('AI.kHelp', true)}</p>
 
     <div class="aiActions">
       <button type="button" id="aiTrain" class="primary">
@@ -64,6 +71,16 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.ai', true),
   <section id="aiStage">
     <canvas id="aiCanvas" width="640" height="640" role="img"
         aria-label="${BlocklyGames.getMsg('AI.canvasLabel', true)}"></canvas>
+    <div id="aiCoach" class="aiCoach" hidden>
+      ${BlocklyGames.getMsg('AI.coachAdd', true)}
+    </div>
+    <div class="aiLegend" role="group"
+        aria-label="${BlocklyGames.getMsg('AI.legendGroup', true)}">
+      <span><i class="aiSwatch aiSwatchA"></i>${BlocklyGames.getMsg('AI.legendA', true)}</span>
+      <span><i class="aiSwatch aiSwatchB"></i>${BlocklyGames.getMsg('AI.legendB', true)}</span>
+      <span><i class="aiSwatch aiSwatchRegion"></i>${BlocklyGames.getMsg('AI.legendRegion', true)}</span>
+      <span><i class="aiSwatch aiSwatchError"></i>${BlocklyGames.getMsg('AI.legendError', true)}</span>
+    </div>
     <div id="aiOverlay" class="aiOverlay" hidden>
       <div class="aiOverlayCard" role="dialog" aria-modal="true"
           aria-labelledby="aiOverlayTitle">

@@ -185,15 +185,18 @@ function imbalanceData(rng) {
  */
 const LEVELS = [
   {
-    target: 0.90,
+    target: 0.86,
     maxPoints: 26,
     k: 1,
     help: 'AI.help1',
     data: function(rng) {
-      return sample(function(x, y) { return x < 0; }, 18, rng);
+      // Deliberately too few examples: the player has to add a few more
+      // before Train/Test can reach the target.  Class B is on the right so
+      // the help can say "blue A left, orange B right".
+      return sample(function(x, y) { return x > 0; }, 4, rng);
     },
     test: function(rng) {
-      return sample(function(x, y) { return x < 0; }, 300, rng);
+      return sample(function(x, y) { return x > 0; }, 300, rng);
     },
   },
   {
@@ -202,7 +205,8 @@ const LEVELS = [
     k: 1,
     help: 'AI.help2',
     data: function(rng) {
-      return sample(function(x, y) { return y > 0; }, 18, rng);
+      // Six examples are not quite enough for 90% accuracy.
+      return sample(function(x, y) { return y > 0; }, 6, rng);
     },
     test: function(rng) {
       return sample(function(x, y) { return y > 0; }, 300, rng);
@@ -214,7 +218,8 @@ const LEVELS = [
     k: 1,
     help: 'AI.help3',
     data: function(rng) {
-      return sample(function(x, y) { return x + y > 0; }, 22, rng);
+      // Four examples make the diagonal visible but leave gaps.
+      return sample(function(x, y) { return x + y > 0; }, 4, rng);
     },
     test: function(rng) {
       return sample(function(x, y) { return x + y > 0; }, 300, rng);
@@ -425,6 +430,19 @@ let testResults = null;
 let accuracy = null;
 
 /**
+ * Number of examples added or erased since the level was reset.  Used by the
+ * first-run coach; it is deliberately not a pass condition.
+ * @type {number}
+ */
+let edits = 0;
+
+/**
+ * Number of wrong test answers in the last run.
+ * @type {number}
+ */
+let testErrors = 0;
+
+/**
  * Active drawing tool: 'a', 'b' or 'erase'.
  * @type {string}
  */
@@ -494,6 +512,10 @@ function resetTraining() {
   testSet = null;
   testResults = null;
   accuracy = null;
+  edits = 0;
+  testErrors = 0;
+  updateCoach();
+  updateTestInfo();
 }
 
 /**
@@ -701,6 +723,35 @@ function updateStats() {
 }
 
 /**
+ * Show the "click the plot" coach on the first three levels until the player
+ * has changed the examples at least once.
+ */
+function updateCoach() {
+  const coach = document.getElementById('aiCoach');
+  if (!coach) {
+    return;
+  }
+  coach.hidden = !(level <= 3 && edits === 0);
+}
+
+/**
+ * Show how many test answers were wrong, or hide the line before a test.
+ */
+function updateTestInfo() {
+  const info = document.getElementById('aiTestInfo');
+  if (!info) {
+    return;
+  }
+  if (!testErrors || !testSet) {
+    info.hidden = true;
+    info.textContent = '';
+    return;
+  }
+  info.hidden = false;
+  info.textContent = msg('AI.testInfo', testErrors, testSet.length);
+}
+
+/**
  * Show the completion overlay and persist the level result.
  */
 function winLevel() {
@@ -742,8 +793,10 @@ function testModel() {
   }
   testResults = results;
   accuracy = correct / testSet.length;
+  testErrors = testSet.length - correct;
   render();
   updateStats();
+  updateTestInfo();
   const hint = document.getElementById('aiHint');
   if (accuracy >= levelDef.target) {
     hint.hidden = true;
@@ -775,6 +828,7 @@ function canvasClick(e) {
     }
     if (best !== -1) {
       training.splice(best, 1);
+      edits++;
     }
   } else {
     if (training.length >= levelDef.maxPoints) {
@@ -784,9 +838,13 @@ function canvasClick(e) {
       return;
     }
     training.push({x: point.x, y: point.y, label: brush === 'b' ? 1 : 0});
+    edits++;
   }
   testResults = null;
   accuracy = null;
+  testErrors = 0;
+  updateTestInfo();
+  updateCoach();
   document.getElementById('aiHint').hidden = true;
   render();
   updateStats();
@@ -825,8 +883,10 @@ function navigate(newLevel) {
         window.location.host + window.location.pathname +
         '?lang=' + BlocklyGames.LANG + '&level=' + newLevel;
   } else {
-    window.location = (BlocklyGames.IS_HTML ? 'index.html' : './') +
-        '?lang=' + BlocklyGames.LANG;
+    // Replace the game entry so the browser Back button does not return to
+    // the game the player just left.
+    window.location.replace((BlocklyGames.IS_HTML ? 'index.html' : './') +
+        '?lang=' + BlocklyGames.LANG);
   }
 }
 
@@ -879,12 +939,16 @@ function init() {
   document.getElementById('aiK').addEventListener('change', function() {
     testResults = null;
     accuracy = null;
+    testErrors = 0;
+    updateTestInfo();
     render();
     updateStats();
   }, false);
   document.getElementById('aiTrain').addEventListener('click', function() {
     testResults = null;
     accuracy = null;
+    testErrors = 0;
+    updateTestInfo();
     render();
     updateStats();
     document.getElementById('aiHint').hidden = true;

@@ -285,4 +285,13 @@ function clearData() {
   location.reload();
 }
 
+// If the browser restores the index from the back/forward cache, its gauges
+// and progress toolbar can be stale.  Reload once so the saved levels are
+// read again.
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    window.location.reload();
+  }
+}, false);
+
 BlocklyGames.callWhenLoaded(init);

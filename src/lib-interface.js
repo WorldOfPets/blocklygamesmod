@@ -232,8 +232,10 @@ BlocklyInterface.indexPage = function() {
     window.parent.postMessage({'blocklyGames': 'open', 'page': 'index'}, '*');
     return;
   }
-  window.location = (BlocklyGames.IS_HTML ? 'index.html' : './') +
-      '?lang=' + BlocklyGames.LANG;
+  // Replace the game entry in history.  Otherwise pressing Back after
+  // "All games" would bounce the player into the game they just left.
+  window.location.replace((BlocklyGames.IS_HTML ? 'index.html' : './') +
+      '?lang=' + BlocklyGames.LANG);
 };
 
 /**
