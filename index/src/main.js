@@ -13,6 +13,7 @@
 goog.provide('Index');
 
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.identity');
 goog.require('Index.html');
 
 /**
@@ -39,6 +40,8 @@ function init() {
 
   const languageMenu = BlocklyGames.getElementById('languageMenu');
   languageMenu.addEventListener('change', BlocklyGames.changeLanguage, true);
+
+  initIdentity();
 
   BlocklyGames.bindClick('exportProgress', exportProgress);
   BlocklyGames.bindClick('importProgress', function() {
@@ -164,9 +167,228 @@ function getProgressValue(app, level) {
 }
 
 /**
- * Download all completed levels as a small, human-readable JSON file.
+ * File format written by exportProgress.  Version 2 adds the locked student
+ * identity, the import history and an ECDSA signature over all of it.
+ */
+const PROGRESS_FORMAT = 'blockly-games-progress';
+const PROGRESS_VERSION = 2;
+
+/**
+ * True while an export is being signed, so double clicks do not download two
+ * files.
+ */
+let exporting = false;
+
+/**
+ * Replace %1..%9 in a message.  Using a callback avoids treating "$&" in a
+ * student's name as a replacement pattern.
+ * @param {string} template Message template.
+ * @param {!Array} values Replacement values.
+ * @returns {string} Formatted message.
+ */
+function formatMessage_(template, values) {
+  return template.replace(/%([0-9])/g, function(match, digit) {
+    const index = Number(digit) - 1;
+    return index >= 0 && index < values.length ? String(values[index]) : match;
+  });
+}
+
+/**
+ * Bind the locked student identity UI and show the dialog on the first visit.
+ */
+function initIdentity() {
+  const form = BlocklyGames.getElementById('studentForm');
+  if (!form) {
+    return;
+  }
+  form.addEventListener('submit', saveStudent, true);
+  BlocklyGames.bindClick('studentEdit', openStudentDialog);
+  BlocklyGames.bindClick('studentLater', closeStudentDialogWithFlag);
+  window.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' &&
+        !BlocklyGames.getElementById('studentDialog').hidden) {
+      closeStudentDialogWithFlag();
+    }
+  }, false);
+  updateIdentityUI();
+  if (!BlocklyGames.identity.get()) {
+    let prompted = false;
+    try {
+      prompted = window.sessionStorage['blocklyGamesStudentPrompt'] === '1';
+    } catch (e) {
+      // sessionStorage can be unavailable in private mode or on file://.
+    }
+    if (!prompted) {
+      setTimeout(openStudentDialog, 300);
+    }
+  }
+}
+
+/**
+ * Refresh the identity badge, the "set name" button and the import badge.
+ */
+function updateIdentityUI() {
+  const identity = BlocklyGames.identity.get();
+  const badge = BlocklyGames.getElementById('studentBadge');
+  const edit = BlocklyGames.getElementById('studentEdit');
+  if (!badge || !edit) {
+    return;
+  }
+  if (identity) {
+    badge.textContent = formatMessage_(
+        BlocklyGames.getMsg('Index.studentBadge', false),
+        [identity['name'], identity['group']]);
+    badge.title = identity['name'] + ' · ' + identity['group'] + '\n' +
+        BlocklyGames.getMsg('Index.studentLockNote', false);
+    edit.hidden = true;
+  } else {
+    badge.textContent = '';
+    badge.title = '';
+    edit.hidden = false;
+  }
+  const importBadge = BlocklyGames.getElementById('importBadge');
+  const log = BlocklyGames.identity.importLog();
+  if (!importBadge) {
+    return;
+  }
+  if (!log.length) {
+    importBadge.hidden = true;
+    importBadge.textContent = '';
+    importBadge.title = '';
+  } else {
+    const last = log[0];
+    importBadge.hidden = false;
+    importBadge.textContent = formatMessage_(
+        BlocklyGames.getMsg('Index.importBadge', false),
+        [last['name'], last['group']]);
+    importBadge.title = formatMessage_(
+        BlocklyGames.getMsg('Index.importBadgeTitle', false),
+        [String(last['levels'] || 0),
+         String(last['imported'] || '').slice(0, 10)]);
+  }
+}
+
+/**
+ * Show the student dialog.  An existing record is displayed read-only; the
+ * normal UI hides the edit button once the record is locked.
+ */
+function openStudentDialog() {
+  const dialog = BlocklyGames.getElementById('studentDialog');
+  if (!dialog) {
+    return;
+  }
+  const identity = BlocklyGames.identity.get();
+  const nameInput = BlocklyGames.getElementById('studentName');
+  const groupInput = BlocklyGames.getElementById('studentGroup');
+  const saveButton = BlocklyGames.getElementById('studentSave');
+  setStudentError('');
+  if (identity) {
+    nameInput.value = identity['name'];
+    groupInput.value = identity['group'];
+    nameInput.readOnly = true;
+    groupInput.readOnly = true;
+    saveButton.hidden = true;
+  } else {
+    nameInput.readOnly = false;
+    groupInput.readOnly = false;
+    saveButton.hidden = false;
+  }
+  dialog.hidden = false;
+  if (!identity) {
+    nameInput.focus();
+  }
+}
+
+/**
+ * Hide the student dialog.
+ */
+function closeStudentDialog() {
+  const dialog = BlocklyGames.getElementById('studentDialog');
+  if (dialog) {
+    dialog.hidden = true;
+  }
+}
+
+/**
+ * Hide the dialog and remember that the student chose "Later" for this
+ * session, so it does not reopen on every navigation.
+ */
+function closeStudentDialogWithFlag() {
+  closeStudentDialog();
+  try {
+    window.sessionStorage['blocklyGamesStudentPrompt'] = '1';
+  } catch (e) {
+    // Ignore unavailable sessionStorage.
+  }
+}
+
+/**
+ * Show or clear the inline error in the student dialog.
+ * @param {string} text Error text, or an empty string to hide it.
+ */
+function setStudentError(text) {
+  const error = BlocklyGames.getElementById('studentError');
+  if (!error) {
+    return;
+  }
+  error.textContent = text || '';
+  error.hidden = !text;
+}
+
+/**
+ * Save the student record.  The inputs are locked afterwards and the record
+ * is never replaced from the UI.
+ * @param {!Event} event Submit event.
+ */
+function saveStudent(event) {
+  event.preventDefault();
+  const name = BlocklyGames.getElementById('studentName').value;
+  const group = BlocklyGames.getElementById('studentGroup').value;
+  if (!name.trim() || !group.trim()) {
+    setStudentError(BlocklyGames.getMsg('Index.studentEmpty', false));
+    return;
+  }
+  const identity = BlocklyGames.identity.save(name, group);
+  if (!identity) {
+    setStudentError(BlocklyGames.getMsg('Index.studentEmpty', false));
+    return;
+  }
+  closeStudentDialog();
+  updateIdentityUI();
+  setProgressStatus(formatMessage_(
+      BlocklyGames.getMsg('Index.studentSaved', false),
+      [identity['name'], identity['group']]));
+}
+
+/**
+ * Ensure a locked identity exists before exporting or importing.  Opening
+ * the dialog is the only recovery path; returning false cancels the action.
+ * @returns {boolean} True when the identity is present.
+ */
+function ensureIdentity() {
+  if (BlocklyGames.identity.get()) {
+    return true;
+  }
+  openStudentDialog();
+  setProgressStatus(BlocklyGames.getMsg('Index.studentRequired', false));
+  return false;
+}
+
+/**
+ * Download all completed levels as a signed, human-readable JSON file.
  */
 function exportProgress() {
+  if (!ensureIdentity()) {
+    return;
+  }
+  if (!BlocklyGames.identity.available()) {
+    setProgressStatus(BlocklyGames.getMsg('Index.signingUnavailable', false));
+    return;
+  }
+  if (exporting) {
+    return;
+  }
+  const identity = BlocklyGames.identity.get();
   const apps = {};
   let count = 0;
   for (let i = 0; i < APPS.length; i++) {
@@ -190,33 +412,64 @@ function exportProgress() {
   // Quoted keys survive Closure's ADVANCED property renaming.  Without the
   // quotes a compiled build would write {"o": ..., "h": ...} instead of the
   // documented progress schema.
-  const data = {};
-  data['format'] = 'blockly-games-progress';
-  data['version'] = 1;
-  data['exported'] = new Date().toISOString();
-  data['apps'] = apps;
-  const blob = new Blob([JSON.stringify(data, null, 2)],
-      {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'blockly-games-progress-' +
-      new Date().toISOString().slice(0, 10) + '.json';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  setTimeout(function() {
-    URL.revokeObjectURL(url);
-  }, 1000);
-  setProgressStatus(BlocklyGames.getMsg('Index.exportDone', false)
-      .replace('%1', count));
+  const student = {};
+  student['name'] = identity['name'];
+  student['group'] = identity['group'];
+  student['id'] = identity['id'] || '';
+  const payload = {};
+  payload['format'] = PROGRESS_FORMAT;
+  payload['version'] = PROGRESS_VERSION;
+  payload['exported'] = new Date().toISOString();
+  payload['student'] = student;
+  payload['apps'] = apps;
+  payload['imports'] = BlocklyGames.identity.importLog();
+  exporting = true;
+  setProgressStatus(BlocklyGames.getMsg('Index.exportSigning', false));
+  BlocklyGames.identity.sign(payload).then(function(signature) {
+    const data = {};
+    data['format'] = payload['format'];
+    data['version'] = payload['version'];
+    data['exported'] = payload['exported'];
+    data['student'] = payload['student'];
+    data['apps'] = payload['apps'];
+    data['imports'] = payload['imports'];
+    data['signature'] = signature;
+    const blob = new Blob([JSON.stringify(data, null, 2)],
+        {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'blockly-games-progress-' +
+        new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function() {
+      URL.revokeObjectURL(url);
+    }, 1000);
+    exporting = false;
+    setProgressStatus(formatMessage_(
+        BlocklyGames.getMsg('Index.exportDone', false), [count]));
+  }).catch(function() {
+    exporting = false;
+    setProgressStatus(BlocklyGames.getMsg('Index.exportFailed', false));
+  });
 }
 
 /**
- * Merge levels from a JSON progress file into localStorage.
+ * Merge levels from a signed JSON progress file into localStorage.  The
+ * signature is checked before any key is written, so editing the student
+ * name (or any level) in the JSON blocks the whole import.
  * @param {!File} file File chosen by the user.
  */
 function importProgress(file) {
+  if (!ensureIdentity()) {
+    return;
+  }
+  if (!BlocklyGames.identity.available()) {
+    setProgressStatus(BlocklyGames.getMsg('Index.signingUnavailable', false));
+    return;
+  }
   if (file.size > MAX_PROGRESS_FILE_SIZE) {
     setProgressStatus(BlocklyGames.getMsg('Index.importInvalid', false));
     return;
@@ -233,39 +486,94 @@ function importProgress(file) {
       setProgressStatus(BlocklyGames.getMsg('Index.importInvalid', false));
       return;
     }
-    if (!data || data['format'] !== 'blockly-games-progress' ||
+    if (!data || data['format'] !== PROGRESS_FORMAT ||
         !data['apps'] || typeof data['apps'] !== 'object') {
       setProgressStatus(BlocklyGames.getMsg('Index.importInvalid', false));
       return;
     }
-    let count = 0;
-    for (let i = 0; i < APPS.length; i++) {
-      const app = APPS[i];
-      const levels = data['apps'][app];
-      if (!levels || typeof levels !== 'object') {
-        continue;
+    if (data['version'] !== PROGRESS_VERSION) {
+      setProgressStatus(BlocklyGames.getMsg('Index.importUnsigned', false));
+      return;
+    }
+    const student = data['student'];
+    if (!student || typeof student !== 'object' ||
+        typeof student['name'] !== 'string' ||
+        typeof student['group'] !== 'string' ||
+        typeof student['id'] !== 'string' ||
+        typeof data['exported'] !== 'string') {
+      setProgressStatus(BlocklyGames.getMsg('Index.importTampered', false));
+      return;
+    }
+    if (!data['signature'] || typeof data['signature'] !== 'object') {
+      setProgressStatus(BlocklyGames.getMsg('Index.importUnsigned', false));
+      return;
+    }
+    const payload = BlocklyGames.identity.payload(data);
+    BlocklyGames.identity.verify(payload, data['signature']).then(
+        function(valid) {
+      if (!valid) {
+        setProgressStatus(BlocklyGames.getMsg('Index.importTampered', false));
+        return;
       }
-      for (let level = 1; level <= BlocklyGames.MAX_LEVEL; level++) {
-        const value = levels[level];
-        if (typeof value === 'string' && value.length) {
-          try {
-            window.localStorage[app + level] = value;
-            count++;
-          } catch (e) {
-            // Storage may be full or disabled.  Keep importing the rest.
+      const local = BlocklyGames.identity.get();
+      if (!BlocklyGames.identity.matches(local, student)) {
+        const question = formatMessage_(
+            BlocklyGames.getMsg('Index.importOther', false),
+            [student['name'], student['group']]);
+        if (!window.confirm(question)) {
+          setProgressStatus(
+              BlocklyGames.getMsg('Index.importCanceled', false));
+          return;
+        }
+      }
+      let count = 0;
+      for (let i = 0; i < APPS.length; i++) {
+        const app = APPS[i];
+        const levels = data['apps'][app];
+        if (!levels || typeof levels !== 'object') {
+          continue;
+        }
+        for (let level = 1; level <= BlocklyGames.MAX_LEVEL; level++) {
+          const value = levels[level];
+          if (typeof value === 'string' && value.length) {
+            try {
+              window.localStorage[app + level] = value;
+              count++;
+            } catch (e) {
+              // Storage may be full or disabled.  Keep importing the rest.
+            }
           }
         }
       }
-    }
-    if (!count) {
-      setProgressStatus(BlocklyGames.getMsg('Index.importInvalid', false));
-      return;
-    }
-    setProgressStatus(BlocklyGames.getMsg('Index.importDone', false)
-        .replace('%1', count));
-    setTimeout(function() {
-      location.reload();
-    }, 900);
+      if (!count) {
+        setProgressStatus(BlocklyGames.getMsg('Index.importInvalid', false));
+        return;
+      }
+      const record = {};
+      record['name'] = student['name'];
+      record['group'] = student['group'];
+      record['id'] = student['id'];
+      record['exported'] = data['exported'];
+      record['imported'] = new Date().toISOString();
+      record['levels'] = count;
+      BlocklyGames.identity.addImport(record, data['imports']);
+      updateIdentityUI();
+      setProgressStatus(formatMessage_(
+          BlocklyGames.getMsg('Index.importSigned', false),
+          [student['name'], student['group'], count]));
+      setTimeout(function() {
+        if (window['BlocklyGamesStandalone']) {
+          // The index lives in an iframe in the single-file build; reloading
+          // that document would leave a blank frame.
+          window.parent.postMessage(
+              {'blocklyGames': 'open', 'page': 'index'}, '*');
+        } else {
+          location.reload();
+        }
+      }, 1800);
+    }).catch(function() {
+      setProgressStatus(BlocklyGames.getMsg('Index.importTampered', false));
+    });
   };
   reader.readAsText(file);
 }

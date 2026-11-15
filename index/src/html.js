@@ -63,6 +63,9 @@ Index.html.start = function(ij) {
   <select id="languageMenu" aria-label="${BlocklyGames.getMsg('Games.language', true)}"></select>
 </div>
 <div id="progressBar">
+  <span id="studentBadge" class="studentBadge"></span>
+  <button type="button" class="secondary" id="studentEdit" hidden>${BlocklyGames.getMsg('Index.studentSet', true)}</button>
+  <span id="importBadge" class="importBadge" hidden></span>
   <span>${BlocklyGames.getMsg('Index.progressTools', true)}</span>
   <button type="button" class="secondary" id="exportProgress"
       title="${BlocklyGames.getMsg('Index.exportHelp', true)}">${BlocklyGames.getMsg('Index.export', true)}</button>
@@ -70,6 +73,25 @@ Index.html.start = function(ij) {
       title="${BlocklyGames.getMsg('Index.importHelp', true)}">${BlocklyGames.getMsg('Index.import', true)}</button>
   <input type="file" id="importProgressFile" accept="application/json,.json" hidden>
   <span id="progressStatus" role="status" aria-live="polite"></span>
+</div>
+<div id="studentDialog" class="studentDialog" hidden>
+  <div class="studentDialogCard" role="dialog" aria-modal="true"
+      aria-labelledby="studentDialogTitle">
+    <h2 id="studentDialogTitle">${BlocklyGames.getMsg('Index.studentTitle', true)}</h2>
+    <p>${BlocklyGames.getMsg('Index.studentHelp', true)}</p>
+    <form id="studentForm">
+      <label for="studentName">${BlocklyGames.getMsg('Index.studentName', true)}</label>
+      <input type="text" id="studentName" maxlength="120" autocomplete="name" required>
+      <label for="studentGroup">${BlocklyGames.getMsg('Index.studentGroup', true)}</label>
+      <input type="text" id="studentGroup" maxlength="40" required>
+      <p class="studentDialogNote">${BlocklyGames.getMsg('Index.studentLockNote', true)}</p>
+      <p id="studentError" class="studentError" role="alert" hidden></p>
+      <div class="studentDialogActions">
+        <button type="submit" class="primary" id="studentSave">${BlocklyGames.getMsg('Index.studentSave', true)}</button>
+        <button type="button" class="secondary" id="studentLater">${BlocklyGames.getMsg('Index.studentLater', true)}</button>
+      </div>
+    </form>
+  </div>
 </div>
 <p id="clearDataPara" style="visibility: hidden">
   ${BlocklyGames.getMsg('Index.startOver', true)}

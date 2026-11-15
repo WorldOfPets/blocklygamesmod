@@ -8,6 +8,7 @@ window.CLOSURE_NO_DEPS = true;
       "third-party/blockly/core/utils/global.js",
       "third-party/blockly/core/msg.js",
       "src/lib-games.js",
+      "src/lib-identity.js",
       "index/src/html.js",
       "index/src/main.js"
   ];

@@ -62,6 +62,120 @@ html[dir="RTL"] #progressBar {
   color: var(--ink);
 }
 
+#studentBadge {
+  max-width: 22em;
+  overflow: hidden;
+  color: var(--ink-muted);
+  font-size: .85rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#studentBadge:empty {
+  display: none;
+}
+
+#importBadge {
+  max-width: 22em;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: .85rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#importBadge[hidden] {
+  display: none;
+}
+
+.studentDialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  background-color: rgba(0, 0, 0, .45);
+}
+
+.studentDialog[hidden] {
+  display: none;
+}
+
+.studentDialogCard {
+  box-sizing: border-box;
+  width: 30em;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 1.1em 1.3em;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.studentDialogCard h2 {
+  margin: 0 0 .4em;
+  font-size: 1.15rem;
+}
+
+.studentDialogCard p {
+  margin: .4em 0 .6em;
+  color: var(--ink-muted);
+  font-size: .9rem;
+  line-height: 1.45;
+}
+
+.studentDialogCard label {
+  display: block;
+  margin: .8em 0 .25em;
+  font-size: .9rem;
+  font-weight: 500;
+}
+
+.studentDialogCard input[type="text"] {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.studentDialogCard .studentDialogNote {
+  font-size: .82rem;
+}
+
+.studentDialogCard .studentError {
+  margin: .5em 0 0;
+  color: #d1242f;
+  font-size: .85rem;
+}
+
+html[data-theme="dark"] .studentDialogCard .studentError {
+  color: #ff7b72;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] .studentDialogCard .studentError {
+    color: #ff7b72;
+  }
+}
+
+.studentDialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .5em;
+  margin-top: 1em;
+}
+
+.studentDialogActions button {
+  margin: 0;
+}
+
 @media (max-width: 725px) {
   #headerControls {
     top: .25em;
@@ -273,3 +387,19 @@ a:hover > text {
   stroke-linecap: round;
   fill: none;
 }
+
+@media (max-width: 725px) {
+  #studentBadge,
+  #importBadge {
+    max-width: 100%;
+  }
+
+  #progressBar {
+    bottom: 5.5em;
+  }
+
+  .studentDialogCard {
+    padding: 1em;
+  }
+}
+
