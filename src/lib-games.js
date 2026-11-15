@@ -170,8 +170,8 @@ BlocklyGames.errorReporter_ = function(event) {
     // otherwise, use standard properties.
     const report = (event.error && event.error.stack) ||
         `${event.message} ${event.filename} ${event.lineno}:${event.colno}`;
-    const params = "error=" + encodeURIComponent(report) +
-        '&amp;url=' + encodeURIComponent(window.location);
+    const params = 'error=' + encodeURIComponent(report) +
+        '&url=' + encodeURIComponent(window.location);
     req.open("POST", "/errorReporter");
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(params);
@@ -222,7 +222,7 @@ BlocklyGames.storageName;
 /**
  * Maximum number of levels.  Common to all apps.
  */
-BlocklyGames.MAX_LEVEL = 20;
+BlocklyGames.MAX_LEVEL = 15;
 
 /**
  * User's level (e.g. 5).
@@ -272,6 +272,14 @@ BlocklyGames.init = function(title) {
     }
   }
 
+  // Re-bind the theme selector after a game has replaced document.body.
+  // common/theme.js runs before the toolbar exists; this second call finds
+  // the real selector and leaves the fallback (if any) alone.
+  if (window['BlocklyGamesTheme'] &&
+      window['BlocklyGamesTheme']['initSelector']) {
+    window['BlocklyGamesTheme']['initSelector']();
+  }
+
   // Highlight levels that have been completed.
   for (let i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
     const link = BlocklyGames.getElementById('level' + i);
@@ -285,13 +293,9 @@ BlocklyGames.init = function(title) {
   const viewport = document.querySelector('meta[name="viewport"]');
   if (viewport && screen.availWidth < 725) {
     viewport.setAttribute('content',
-        'width=725, initial-scale=.35, user-scalable=no');
+        'width=725, initial-scale=.35');
   }
 
-  // Lazy-load Google Analytics.
-  if (!BlocklyGames.IS_HTML) {
-    setTimeout(BlocklyGames.importAnalytics3_, 1);
-  }
 };
 
 /**
@@ -339,7 +343,7 @@ BlocklyGames.changeLanguage = function() {
  * Attempt to fetch the saved blocks for a level.
  * May be used to simply determine if a level is complete.
  * @param {string} name Name of app (maze, bird, ...).
- * @param {number} level Level (1-10).
+ * @param {number} level Level (1-15).
  * @returns {string|undefined} Serialized XML, or undefined.
  */
 BlocklyGames.loadFromLocalStorage = function(name, level) {
@@ -398,7 +402,7 @@ BlocklyGames.normalizeAngle = function(angle) {
 BlocklyGames.getMsg = function(name, escape) {
   let msg = window['BlocklyGamesMsg'][name];
   if (msg === undefined) {
-    msg = '[Unknown message: ${name}]';
+    msg = '[Unknown message: ' + name + ']';
   }
   return escape ? BlocklyGames.esc(msg) : msg;
 };
@@ -414,30 +418,4 @@ BlocklyGames.esc = function(text) {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
-};
-
-/**
- * Load Google Analytics 3 (UA).
- * Delete this on July 1, 2023.
- * @private
- */
-BlocklyGames.importAnalytics3_ = function() {
-  const gaName = 'GoogleAnalyticsFunction';
-  window['GoogleAnalyticsObject'] = gaName;
-  /**
-   * Load command onto Google Analytics queue.
-   * @param {...string} var_args Commands.
-   */
-  const gaObject = function(var_args) {
-    (gaObject['q'] = gaObject['q'] || []).push(arguments);
-  };
-  window[gaName] = gaObject;
-  gaObject['l'] = 1 * new Date();
-  const script = document.createElement('script');
-  script.async = 1;
-  script.src = '//www.google-analytics.com/analytics.js';
-  document.head.appendChild(script);
-
-  gaObject('create', 'UA-50448074-1', 'auto');
-  gaObject('send', 'pageview');
 };

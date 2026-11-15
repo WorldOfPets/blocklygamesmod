@@ -34,7 +34,7 @@ BlocklyGames.storageName = 'maze';
 
 const MAX_BLOCKS =
     [Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10, 10, 9,
-     11, 11, 12, 12, 13, 13, 14, 14]
+     11, 11, 12]
         [BlocklyGames.LEVEL - 1];
 
 // Crash type constants.
@@ -78,6 +78,20 @@ const SKINS = [
     winSound: ['maze/win.mp3', 'maze/win.ogg'],
     crashSound: ['maze/fail_panda.mp3', 'maze/fail_panda.ogg'],
     crashType: CRASH_FALL,
+  },
+  {
+    // The 6 chases the 7.  When they meet, the win screen does the dance.
+    sprite: 'maze/six-seven-sprite.svg',
+    tiles: 'maze/tiles_pegman.png',
+    background: false,
+    look: '#e8710a',
+    winSound: ['maze/win.mp3', 'maze/win.ogg'],
+    crashSound: ['maze/fail_pegman.mp3', 'maze/fail_pegman.ogg'],
+    crashType: CRASH_STOP,
+    finish: 'maze/six-seven-finish.svg',
+    finishWidth: 30,
+    finishHeight: 44,
+    meme: true,
   },
 ];
 const SKIN_ID = (window['BlocklyGamesSkin'] !== undefined) ?
@@ -245,74 +259,6 @@ const map = [
   [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0],
   [0, 1, 1, 1, 0, 1, 1, 1, 1, 3, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 16.
- [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 2, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-  [0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 1, 1, 0, 1, 1, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 17.
- [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 2, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-  [0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-  [0, 1, 0, 1, 1, 1, 1, 1, 1, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 18.
- [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0],
-  [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-  [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0],
-  [0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-  [0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 19.
- [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-  [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0],
-  [0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 20.
- [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 2, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-  [0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-  [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
 ][BlocklyGames.LEVEL - 1];
 
 /**
@@ -499,14 +445,15 @@ function drawMap() {
     }
   }
 
-  // Add finish marker.
+  // Add finish marker.  Most skins use the tiny flag; the 6/7 skin uses a
+  // large painted 7 so that the goal reads as a character too.
   const finishMarker = Blockly.utils.dom.createSvgElement('image', {
       'id': 'finish',
-      'height': 34,
-      'width': 20,
+      'height': SKIN.finishHeight || 34,
+      'width': SKIN.finishWidth || 20,
     }, svg);
   finishMarker.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
-      'maze/marker.png');
+      SKIN.finish || 'maze/marker.png');
 
   // Pegman's clipPath element, whose (x, y) is reset by displayPegman
   const pegmanClip = Blockly.utils.dom.createSvgElement('clipPath', {
@@ -563,6 +510,7 @@ function init() {
     }
     const div = document.createElement('div');
     const img = document.createElement('img');
+    img.alt = '';
     img.src = 'common/1x1.gif';
     img.style.backgroundImage = 'url(' + SKINS[i].sprite + ')';
     div.appendChild(img);
@@ -592,7 +540,7 @@ function init() {
   window.addEventListener('resize', onresize);
   onresize(null);
 
-  // Scale the workspace so level 1 is about 1.32, and level 20 is 1.0.
+  // Scale the workspace so level 1 is about 1.32, and the final level is 1.0.
   const scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
   BlocklyInterface.injectBlockly(
       {'maxBlocks': MAX_BLOCKS,
@@ -664,9 +612,10 @@ function init() {
   }
 
   // Add the spinning Pegman icon to the done dialog.
-  // <img id="pegSpin" src="common/1x1.gif">
+  // <img alt="" id="pegSpin" src="common/1x1.gif">
   const buttonDiv = BlocklyGames.getElementById('dialogDoneButtons');
   const pegSpin = document.createElement('img');
+  pegSpin.alt = '';
   pegSpin.id = 'pegSpin';
   pegSpin.src = 'common/1x1.gif';
   pegSpin.style.backgroundImage = 'url(' + SKIN.sprite + ')';
@@ -1247,7 +1196,8 @@ function animate() {
     case 'finish':
       scheduleFinish(true);
       BlocklyInterface.saveToLocalStorage();
-      setTimeout(BlocklyCode.congratulations, 1000);
+      // The 6/7 skin gets a moment to do its dance before the dialog opens.
+      setTimeout(BlocklyCode.congratulations, SKIN.meme ? 3200 : 1000);
   }
 
   pidList.push(setTimeout(animate, stepSpeed * 5));
@@ -1395,6 +1345,9 @@ function scheduleFinish(sound) {
   displayPegman(pegmanX, pegmanY, 16);
   if (sound) {
     BlocklyInterface.workspace.getAudioManager().play('win', 0.5);
+    if (SKIN.meme) {
+      showSixSeven_();
+    }
   }
   stepSpeed = 150;  // Slow down victory animation a bit.
   pidList.push(setTimeout(function() {
@@ -1406,6 +1359,24 @@ function scheduleFinish(sound) {
   pidList.push(setTimeout(function() {
       displayPegman(pegmanX, pegmanY, direction16);
     }, stepSpeed * 3));
+}
+
+/**
+ * The 6 reached the 7.  Flash the meme card over the maze for a moment.
+ * @private
+ */
+function showSixSeven_() {
+  const meme = BlocklyGames.getElementById('sixSevenMeme');
+  if (!meme) {
+    return;
+  }
+  meme.classList.remove('show');
+  // Force a reflow so that repeated wins replay the entrance animation.
+  void meme.offsetWidth;
+  meme.classList.add('show');
+  setTimeout(function() {
+    meme.classList.remove('show');
+  }, 3000);
 }
 
 /**

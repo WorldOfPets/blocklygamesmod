@@ -855,60 +855,6 @@ function answer(f) {
       penColour('#cccccc');
       rect(50, 30 + time() * 0.6, 12, 24);
       break;
-    case 15:
-      // Rain.
-      penColour('#3399ff');
-      for (let drop = 0; drop < 10; drop++) {
-        const y = 100 - ((time() + drop * 13) % 120);
-        line(5 + drop * 10, y, 5 + drop * 10, y + 8, 2);
-      }
-      break;
-    case 16:
-      // Four balls bouncing out of phase.
-      penColour('#ff0000');
-      circle(15, 15 + Math.abs(Math.sin((time() + 0) / 20)) * 55, 7);
-      penColour('#00ff00');
-      circle(38, 15 + Math.abs(Math.sin((time() + 25) / 20)) * 55, 7);
-      penColour('#3333ff');
-      circle(61, 15 + Math.abs(Math.sin((time() + 50) / 20)) * 55, 7);
-      penColour('#ffff00');
-      circle(84, 15 + Math.abs(Math.sin((time() + 75) / 20)) * 55, 7);
-      break;
-    case 17:
-      // Square spinning around the centre.
-      penColour('#ffff00');
-      const spin = time() * 3.6 * Math.PI / 180;
-      for (let side = 0; side < 4; side++) {
-        const a1 = spin + side * Math.PI / 2;
-        const a2 = a1 + Math.PI / 2;
-        line(50 + 30 * Math.cos(a1), 50 + 30 * Math.sin(a1),
-             50 + 30 * Math.cos(a2), 50 + 30 * Math.sin(a2), 3);
-      }
-      break;
-    case 18:
-      // Pendulum swinging from the top of the screen.
-      const swing = 35 * Math.cos(time() / 100 * Math.PI * 2) * Math.PI / 180;
-      const bobX = 50 + 45 * Math.sin(swing);
-      const bobY = 90 - 45 * Math.cos(swing);
-      penColour('#ffffff');
-      line(50, 90, bobX, bobY, 2);
-      penColour('#ff0000');
-      circle(bobX, bobY, 7);
-      break;
-    case 19:
-      // Fireworks: sparks radiate from a rising centre.
-      penColour('#ff9900');
-      const burstX = 50;
-      const burstY = 20 + time() * 0.5;
-      const burst = (time() % 25) / 25;
-      for (let spark = 0; spark < 8; spark++) {
-        const sparkAngle = spark * Math.PI / 4;
-        const length = 10 + burst * 15;
-        line(burstX, burstY,
-             burstX + length * Math.cos(sparkAngle),
-             burstY + length * Math.sin(sparkAngle), 2);
-      }
-      break;
   }
 }
 

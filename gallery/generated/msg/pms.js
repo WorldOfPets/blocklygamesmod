@@ -1,2 +1,2 @@
 // Automatically generated file.  Do not edit!
-var BlocklyGamesMsg={"Games.name":"Gieugh ëd Blockly","Games.turtle":"Bissa copera","Games.movie":"Film","Games.music":"Mùsica","Games.httpRequestError":"A-i é staje un problema con l'arcesta.","Gallery":"Galarìa"}
+var BlocklyGamesMsg={"Games.name":"Gieugh ëd Blockly","Games.turtle":"Bissa copera","Games.movie":"Film","Games.music":"Mùsica","Games.language":"Language","Games.theme":"Theme","Games.themeAuto":"Auto","Games.themeLight":"Light","Games.themeDark":"Dark","Games.install":"Install app","Games.httpRequestError":"A-i é staje un problema con l'arcesta.","Gallery":"Galarìa"}

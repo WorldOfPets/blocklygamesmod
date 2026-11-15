@@ -22,6 +22,7 @@ goog.require('BlocklyGames');
  */
 Index.html.start = function(ij) {
   return `
+<main style="height: 100%; width: 100%">
 <div id="header">
   <img id="banner" src="index/title.svg" height=40 width=244 alt="Blockly Games">
   <div id="subtitle">${BlocklyGames.getMsg('Index.subTitle', true)}&nbsp;
@@ -47,16 +48,34 @@ Index.html.start = function(ij) {
     ${Index.html.appLink_(ij, 'turtle', 41, 80, 'Games.turtle')}
     ${Index.html.appLink_(ij, 'movie', 55, 61, 'Games.movie')}
     ${Index.html.appLink_(ij, 'music', 69, 43, 'Games.music')}
+    ${Index.html.appLink_(ij, 'ai', 61, 23, 'Games.ai')}
     ${Index.html.appLink_(ij, 'pond-tutor', 83, 55, 'Games.pondTutor')}
     ${window['BlocklyGamesStandalone'] ? '' :
         Index.html.appLink_(ij, 'pond-duck', 90, 85, 'Games.pond')}
   </g>
 </svg>
-<select id="languageMenu"></select>
+<div id="headerControls">
+  <select id="themeMenu" aria-label="${BlocklyGames.getMsg('Games.theme', true)}">
+    <option value="auto">${BlocklyGames.getMsg('Games.themeAuto', true)}</option>
+    <option value="light">${BlocklyGames.getMsg('Games.themeLight', true)}</option>
+    <option value="dark">${BlocklyGames.getMsg('Games.themeDark', true)}</option>
+  </select>
+  <select id="languageMenu" aria-label="${BlocklyGames.getMsg('Games.language', true)}"></select>
+</div>
+<div id="progressBar">
+  <span>${BlocklyGames.getMsg('Index.progressTools', true)}</span>
+  <button type="button" class="secondary" id="exportProgress"
+      title="${BlocklyGames.getMsg('Index.exportHelp', true)}">${BlocklyGames.getMsg('Index.export', true)}</button>
+  <button type="button" class="secondary" id="importProgress"
+      title="${BlocklyGames.getMsg('Index.importHelp', true)}">${BlocklyGames.getMsg('Index.import', true)}</button>
+  <input type="file" id="importProgressFile" accept="application/json,.json" hidden>
+  <span id="progressStatus" role="status" aria-live="polite"></span>
+</div>
 <p id="clearDataPara" style="visibility: hidden">
   ${BlocklyGames.getMsg('Index.startOver', true)}
   <button class="secondary" id="clearData">${BlocklyGames.getMsg('Index.clearData', true)}</button>
 </p>
+</main>
 `;
 };
 

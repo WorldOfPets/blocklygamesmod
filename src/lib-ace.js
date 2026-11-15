@@ -12,6 +12,7 @@
 
 goog.provide('BlocklyAce');
 
+goog.require('BlocklyGames.theme');
 goog.require('BlocklyInterface');
 
 
@@ -57,7 +58,8 @@ BlocklyAce.makeAceSession = function() {
   ace['require']('ace/ext/language_tools');
   const editor = ace['edit']('editor');
   BlocklyInterface.editor = editor;
-  editor['setTheme']('ace/theme/chrome');
+  editor['setTheme'](BlocklyGames.theme.IS_DARK ?
+      'ace/theme/tomorrow_night' : 'ace/theme/chrome');
   editor['setShowPrintMargin'](false);
   editor['setOptions']({
     'enableBasicAutocompletion': true,

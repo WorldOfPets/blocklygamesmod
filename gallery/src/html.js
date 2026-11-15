@@ -28,7 +28,7 @@ ${BlocklyGames.html.headerBar(ij, appName, '', false, false, '')}
 <div id="gallery">
 </div>
 <div id="loading">
-  <img src="common/loading.gif">
+  <img alt="" src="common/loading.gif">
 </div>
 `;
 };
@@ -44,16 +44,20 @@ ${BlocklyGames.html.headerBar(ij, appName, '', false, false, '')}
  * @returns {string} HTML.
  */
 Gallery.html.record = function(app, uuid, thumb, title, published, key) {
+  // Gallery data comes from users; escape everything that lands in HTML.
+  const safeApp = BlocklyGames.esc(app);
+  const safeUuid = BlocklyGames.esc(uuid);
+  const safeTitle = BlocklyGames.esc(title);
   const checkbox = key ?
-      `<input type="checkbox" id="publish-${key}" ${published ? ' checked ' : ''} onchange="publish(this)"></input>` :
+      `<input type="checkbox" id="publish-${BlocklyGames.esc(key)}" ${published ? ' checked ' : ''} onchange="publish(this)">` :
       ''
   return `
 <div class="galleryThumb">
   ${checkbox}
-  <a href="/${app}?level=20#${uuid}"><img src="${thumb}"></a>
+  <a href="/${safeApp}?level=${BlocklyGames.MAX_LEVEL}#${safeUuid}"><img alt="" src="${BlocklyGames.esc(thumb)}"></a>
 </div>
 <div class="galleryTitle">
-  <a href="/${app}?level=20#${uuid}">${title}</a>
+  <a href="/${safeApp}?level=${BlocklyGames.MAX_LEVEL}#${safeUuid}">${safeTitle}</a>
 </div>
 `;
 };

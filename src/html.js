@@ -32,7 +32,7 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
   if (hasLinkButton) {
     linkButton = `
 <button id="linkButton" title="${BlocklyGames.getMsg('Games.linkTooltip', true)}">
-  <img src="common/1x1.gif" class="link icon21">
+  <img alt="" src="common/1x1.gif" class="link icon21">
 </button>
 `;
   }
@@ -52,7 +52,12 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
     ${ij.level ? BlocklyGames.html.levelLinks_(ij, levelLinkSuffix) : ''}
   </h1>
   <div id="header_cta" class="farSide">
-    <select id="languageMenu"></select>
+    <select id="themeMenu" aria-label="${BlocklyGames.getMsg('Games.theme', true)}">
+      <option value="auto">${BlocklyGames.getMsg('Games.themeAuto', true)}</option>
+      <option value="light">${BlocklyGames.getMsg('Games.themeLight', true)}</option>
+      <option value="dark">${BlocklyGames.getMsg('Games.themeDark', true)}</option>
+    </select>
+    <select id="languageMenu" aria-label="${BlocklyGames.getMsg('Games.language', true)}"></select>
     ${linkButton}
     ${helpButton}
     ${farLeftHtml}
@@ -88,15 +93,18 @@ BlocklyGames.html.levelLinks_ = function(ij, suffix) {
   for (let i = 1; i <= ij.maxLevel; i++) {
     let url = `?lang=${ij.lang}&level=${i}`;
     if (suffix) {
-      url += '&' + suffix;
+      url += (suffix.charAt(0) === '&') ? suffix : '&' + suffix;
     }
     html += ' ';
     if (i === ij.level) {
-      html += `<span class="level_number level_done" id="level${i}">${i}</span>`;
+      html += `<span class="level_number level_done" id="level${i}"
+          aria-current="step">${i}</span>`;
     } else if (i === ij.maxLevel) {
-      html += `<a class="level_number" id="level${i}" href="${url}">${i}</a>`;
+      html += `<a class="level_number" id="level${i}" href="${url}"
+          aria-label="${i}">${i}</a>`;
     } else {
-      html += `<a class="level_dot" id="level${i}" href="${url}"></a>`;
+      html += `<a class="level_dot" id="level${i}" href="${url}"
+          aria-label="${i}"></a>`;
     }
   }
   return html;

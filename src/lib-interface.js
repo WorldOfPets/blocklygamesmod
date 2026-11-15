@@ -60,6 +60,12 @@ BlocklyInterface.nextLevelParam = '';
 BlocklyInterface.init = function(title) {
   BlocklyGames.init(title);
 
+  // A theme change reloads the page.  Save the current blocks for that one
+  // reload so the player does not lose work when switching light/dark.
+  window['BlocklyGamesThemeBeforeReload'] = function() {
+    BlocklyInterface.saveToSessionStorage();
+  };
+
   // Disable the link button if page isn't backed by App Engine storage.
   const linkButton = BlocklyGames.getElementById('linkButton');
   if (linkButton) {
@@ -190,7 +196,19 @@ BlocklyInterface.injectBlockly = function(options) {
   options['oneBasedIndex'] = false;
   BlocklyGames.theme.configure(options);
   BlocklyInterface.workspace = Blockly.inject('blockly', options);
+  const injectionDiv = BlocklyInterface.workspace.getInjectionDiv();
+  if (injectionDiv) {
+    // The workspace has an aria-label; a generic div may not carry one.
+    injectionDiv.setAttribute('role', 'application');
+  }
   BlocklyInterface.workspace.addChangeListener(BlocklyInterface.codeChanged);
+  // Keep the SVG in sync with the container when the window is resized.
+  // Older Blockly builds have no ResizeObserver of their own.
+  window.addEventListener('resize', function() {
+    if (BlocklyInterface.workspace) {
+      Blockly.svgResize(BlocklyInterface.workspace);
+    }
+  });
 };
 
 /**

@@ -21,7 +21,8 @@ html[dir="RTL"] button.primary {
   position: absolute;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background-color: var(--surface);
+  /* Black notation needs a light sheet in both colour schemes. */
+  background-color: var(--paper);
   box-shadow: var(--shadow);
   height: 400px;
   width: 400px;

@@ -30,12 +30,24 @@ Blockly.HSV_SATURATION = 0.44;
 Blockly.HSV_VALUE = 0.72;
 
 /**
+ * Is the effective colour scheme dark?  Respect the explicit light/dark/auto
+ * choice made on the page (see common/theme.js) before falling back to the
+ * operating-system preference.
+ * @type {boolean}
+ */
+BlocklyGames.theme.IS_DARK = !!(window['BlocklyGamesTheme'] ?
+    window['BlocklyGamesTheme']['getEffectiveMode']() === 'dark' :
+    (window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches));
+
+/**
  * Workspace background and dot grid.
- * @type {number}
  */
 BlocklyGames.theme.GRID_SPACING = 28;
 BlocklyGames.theme.GRID_DOT = 2;
-BlocklyGames.theme.GRID_COLOUR = '#d3dae1';
+/** @type {string} */
+BlocklyGames.theme.GRID_COLOUR =
+    BlocklyGames.theme.IS_DARK ? '#4b5563' : '#d3dae1';
 
 /**
  * Font stack used for block text and fields.
@@ -57,11 +69,39 @@ BlocklyGames.theme.RENDERER_OVERRIDES = {
 };
 
 /**
+ * Work around a mixed property-access bug in the vendored Blockly build:
+ * `Options.parseGridOptions_` writes unquoted properties (renamed by Closure)
+ * while `Grid.createDom` reads them through string keys (not renamed), so the
+ * compiled grid pattern gets `stroke="undefined"`.  Returning the normalized
+ * object with quoted keys keeps both sides in agreement.
+ * @private
+ */
+BlocklyGames.theme.fixGridOptions_ = function() {
+  if (!Blockly.Options || !Blockly.Options.parseGridOptions_ ||
+      Blockly.Options.parseGridOptions_['blocklyGamesPatched']) {
+    return;
+  }
+  const patched = function(options) {
+    const grid = options['grid'] || {};
+    const spacing = Number(grid['spacing']) || 0;
+    return {
+      'spacing': spacing,
+      'colour': grid['colour'] || '#888',
+      'length': (grid['length'] === undefined) ? 1 : Number(grid['length']),
+      'snap': spacing > 0 && !!grid['snap'],
+    };
+  };
+  patched['blocklyGamesPatched'] = true;
+  Blockly.Options.parseGridOptions_ = patched;
+};
+
+/**
  * Add Blockly Games' shared appearance to a game's inject options.
  * @param {!Object} options Dictionary of Blockly options, modified in place.
  * @returns {!Object} The same options object.
  */
 BlocklyGames.theme.configure = function(options) {
+  BlocklyGames.theme.fixGridOptions_();
   if (!options['rendererOverrides']) {
     options['rendererOverrides'] = BlocklyGames.theme.RENDERER_OVERRIDES;
   }

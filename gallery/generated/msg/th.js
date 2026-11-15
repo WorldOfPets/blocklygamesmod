@@ -1,2 +1,2 @@
 // Automatically generated file.  Do not edit!
-var BlocklyGamesMsg={"Games.name":"บล็อกลีเกมส์","Games.turtle":"เต่า","Games.movie":"ภาพยนตร์","Games.music":"เพลง","Games.httpRequestError":"มีปัญหาเกี่ยวกับการร้องขอ","Gallery":"ระเบียงภาพ"}
+var BlocklyGamesMsg={"Games.name":"บล็อกลีเกมส์","Games.turtle":"เต่า","Games.movie":"ภาพยนตร์","Games.music":"เพลง","Games.language":"Language","Games.theme":"Theme","Games.themeAuto":"Auto","Games.themeLight":"Light","Games.themeDark":"Dark","Games.install":"Install app","Games.httpRequestError":"มีปัญหาเกี่ยวกับการร้องขอ","Gallery":"ระเบียงภาพ"}

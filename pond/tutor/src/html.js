@@ -46,7 +46,7 @@ ${Pond.Tutor.html.helpDialogs_(ij.level)}
 
 /**
  * Toolbox.
- * @param {number} level Level 1-20.
+ * @param {number} level Level 1-15.
  * @returns {string} HTML.
  * @private
  */
@@ -122,7 +122,7 @@ Pond.Tutor.html.toolbox_ = function(level) {
 
 /**
  * Help dialogs for each level.
- * @param {number} level Level 1-20.
+ * @param {number} level Level 1-15.
  * @returns {string} HTML.
  * @private
  */

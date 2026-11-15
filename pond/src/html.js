@@ -42,17 +42,17 @@ Pond.html.visualization = function() {
     </td>
     <td>
       <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+        <img alt="" src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
       </button>
       <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+        <img alt="" src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
 </table>
 
 <div id="dialogDocs">
-  <img src="common/1x1.gif" class="close icon21" id="closeDocs">
+  <img alt="" src="common/1x1.gif" class="close icon21" id="closeDocs">
   <iframe id="frameDocs"></iframe>
 </div>
 `;

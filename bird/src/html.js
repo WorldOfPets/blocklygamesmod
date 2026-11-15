@@ -36,10 +36,10 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', t
     </td>
     <td>
       <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+        <img alt="" src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
       </button>
       <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+        <img alt="" src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
@@ -59,7 +59,7 @@ ${Bird.html.helpDialogs_()}
 
 /**
  * Toolboxes for each level.
- * @param {number} level Level 1-20.
+ * @param {number} level Level 1-15.
  * @returns {string} HTML.
  * @private
  */
@@ -117,79 +117,79 @@ Bird.html.helpDialogs_ = function() {
     return `
 <div id="dialogHelp1" class="dialogHiddenContent">
   <table><tr><td rowspan=2>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td><td>
-    <div class="farSide"><img src="bird/help_heading.png" class="mirrorImg" height=27 width=141></div>
+    <div class="farSide"><img alt="" src="bird/help_heading.png" class="mirrorImg" height=27 width=141></div>
   </td></tr><tr><td>
     ${BlocklyGames.getMsg('Bird.helpHeading', true)}
   </td></tr></table>
 </div>
 <div id="dialogHelp2" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpHasWorm', true)}
   </td><td>
-    <img src="bird/help_up.png">
+    <img alt="" src="bird/help_up.png">
   </td></tr></table>
 </div>
 <div id="dialogHelp4" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpX', true)}
   </td><td>
-    <img src="bird/help_up.png">
+    <img alt="" src="bird/help_up.png">
   </td></tr></table>
 </div>
 <div id="dialogHelp5" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="bird/help_up.png">
+    <img alt="" src="bird/help_up.png">
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpElse', true)}
   </td><td>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td></tr></table>
 </div>
 <div id="dialogHelp6" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="bird/help_up.png">
+    <img alt="" src="bird/help_up.png">
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpElseIf', true)}
   </td><td>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td></tr></table>
 </div>
 <div id="dialogHelp8" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="bird/help_up.png">
+    <img alt="" src="bird/help_up.png">
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpAnd', true)}
   </td><td>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td></tr></table>
 </div>
 <div id="dialogHelp11" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="bird/help_up.png">
+    <img alt="" src="bird/help_up.png">
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpAnd', true)}
   </td><td>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td></tr></table>
 </div>
 <div id="dialogHelp12" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="bird/help_up.png">
+    <img alt="" src="bird/help_up.png">
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpAnd', true)}
   </td><td>
-    <img src="common/help.png">
+    <img alt="" src="common/help.png">
   </td></tr></table>
 </div>
 <div id="dialogMutatorHelp" class="dialogHiddenContent">
   <table><tr><td>
-    <img src="bird/help_mutator.png" class="mirrorImg" height=58 width=107>
+    <img alt="" src="bird/help_mutator.png" class="mirrorImg" height=58 width=107>
   </td><td>
     ${BlocklyGames.getMsg('Bird.helpMutator', true)}
   </td></tr></table>

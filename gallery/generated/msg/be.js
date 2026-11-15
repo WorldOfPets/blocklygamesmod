@@ -1,2 +1,2 @@
 // Automatically generated file.  Do not edit!
-var BlocklyGamesMsg={"Games.name":"Гульні Blockly","Games.turtle":"Чарапашка","Games.movie":"Фільм","Games.music":"Музыка","Games.httpRequestError":"Адбылася праблема пры запыце.","Gallery":"Галерэя"}
+var BlocklyGamesMsg={"Games.name":"Гульні Blockly","Games.turtle":"Чарапашка","Games.movie":"Фільм","Games.music":"Музыка","Games.language":"Language","Games.theme":"Theme","Games.themeAuto":"Auto","Games.themeLight":"Light","Games.themeDark":"Dark","Games.install":"Install app","Games.httpRequestError":"Адбылася праблема пры запыце.","Gallery":"Галерэя"}

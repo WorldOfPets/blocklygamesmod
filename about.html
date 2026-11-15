@@ -2,6 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14181d" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <script src="common/theme.js"></script>
+  <script src="common/pwa.js"></script>
   <title>About Blockly Games</title>
   <link rel="stylesheet" href="common/common.css">
   <style>
@@ -61,7 +70,7 @@ By the end of these games, one is ready to use conventional text-based languages
 <table>
   <tr>
     <td>
-      <img src="index/puzzle.png" height=100 width=100>
+      <img alt="" src="index/puzzle.png" height=100 width=100>
     </td>
     <td>
 <p>Puzzle is a quick introduction to Blockly's shapes and how the pieces snap together.</p>
@@ -70,7 +79,7 @@ By the end of these games, one is ready to use conventional text-based languages
 
   <tr>
     <td>
-      <img src="index/maze.png" height=100 width=100>
+      <img alt="" src="index/maze.png" height=100 width=100>
     </td>
     <td>
 <p>Maze is an introduction to loops and conditionals. It starts simply, but
@@ -80,7 +89,7 @@ every level is more challenging than the last.</p>
 
   <tr>
     <td>
-      <img src="index/bird.png" height=100 width=100>
+      <img alt="" src="index/bird.png" height=100 width=100>
     </td>
     <td>
 <p>Bird is a deep-dive into conditionals. Control-flow is explored with
@@ -90,7 +99,7 @@ increasingly complex conditions.</p>
 
   <tr>
     <td>
-      <img src="index/turtle.png" height=100 width=100>
+      <img alt="" src="index/turtle.png" height=100 width=100>
     </td>
     <td>
 <p>Turtle is a deep-dive into loops. Use nested loops to paint a picture.</p>
@@ -99,7 +108,7 @@ increasingly complex conditions.</p>
 
   <tr>
     <td>
-      <img src="index/movie.png" height=100 width=100>
+      <img alt="" src="index/movie.png" height=100 width=100>
     </td>
     <td>
 <p>Movie is an introduction to mathematical equations. Use math to animate a movie.</p>
@@ -108,7 +117,7 @@ increasingly complex conditions.</p>
 
   <tr>
     <td>
-      <img src="index/music.png" height=100 width=100>
+      <img alt="" src="index/music.png" height=100 width=100>
     </td>
     <td>
 <p>Music is an introduction to functions. Use functions to compose music.</p>
@@ -117,7 +126,18 @@ increasingly complex conditions.</p>
 
   <tr>
     <td>
-      <img src="index/pond-tutor.png" height=100 width=100>
+      <img alt="" src="index/ai.png" height=100 width=100>
+    </td>
+    <td>
+<p>AI Lab introduces machine learning. Label examples, train a simple
+classifier, and see how the data and the number of neighbours change the
+decision boundary.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <img alt="" src="index/pond-tutor.png" height=100 width=100>
     </td>
     <td>
 <p>Pond Tutor introduces text-based programming. Levels switch back and forth
@@ -127,7 +147,7 @@ between blocks and actual JavaScript in a text editor.</p>
 
   <tr>
     <td>
-      <img src="index/pond-duck.png" height=100 width=100>
+      <img alt="" src="index/pond-duck.png" height=100 width=100>
     </td>
     <td>
 <p>Pond is an open-ended contest to program the smartest duck.
@@ -169,6 +189,8 @@ student unlock their potential with code.</p>
     <a href="https://edu.google.com/code-with-google" target="_blank">
       <span class="text-large">Code with</span>
       <svg width=86 height=28 viewBox="0 0 86 28.21">
+        <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="#14181d" media="(prefers-color-scheme: dark)">
         <title>Google</title>
         <path d="m11.11 21.92c-6.035 0-11.11-4.919-11.11-10.96-0.00119-6.041 5.073-10.96 11.11-10.96 3.338 0 5.715 1.31 7.503 3.02l-2.11 2.112c-1.282-1.203-3.017-2.139-5.394-2.139-4.406 0-7.851 3.555-7.851 7.966s3.445 7.966 7.851 7.966c2.858 0 4.486-1.149 5.528-2.192 0.8548-0.8557 1.415-2.085 1.628-3.769h-7.155v-2.993h10.07c0.1073 0.5346 0.1597 1.177 0.1597 1.871 0 2.246-0.614 5.025-2.591 7.004-1.923 2.004-4.379 3.073-7.637 3.073z"/>
         <path d="m36.45 14.81c0 4.063-3.177 7.057-7.077 7.057-3.898 0-7.077-2.994-7.077-7.057 0-4.09 3.178-7.058 7.077-7.058 3.9 0 7.077 2.968 7.077 7.058zm-3.097 0c0-2.54-1.843-4.277-3.979-4.277-2.136 0-3.979 1.738-3.979 4.277 0 2.512 1.843 4.277 3.979 4.277 2.136 0 3.979-1.765 3.979-4.277z"/>
@@ -187,21 +209,6 @@ student unlock their potential with code.</p>
 </footer>
 
 <script src="common/back.js"></script>
-
-<!-- Google Analytics 3 -->
-<!-- Delete this in July 1, 2023. -->
-<script>
-if (window.location.pathname.substr(-5) != '.html'){
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-50448074-1', 'auto');
-  ga('send', 'pageview');
-}
-</script>
-<!-- End Google Analytics 3 -->
 
 </body>
 </html>

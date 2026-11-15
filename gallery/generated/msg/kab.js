@@ -1,2 +1,2 @@
 // Automatically generated file.  Do not edit!
-var BlocklyGamesMsg={"Games.name":"Uraren n Blocky","Games.turtle":"Tifkert","Games.movie":"Asaru","Games.music":"Aẓawan","Games.httpRequestError":"Yella-d wugur deg tuttra.","Gallery":"Timidelt"}
+var BlocklyGamesMsg={"Games.name":"Uraren n Blocky","Games.turtle":"Tifkert","Games.movie":"Asaru","Games.music":"Aẓawan","Games.language":"Language","Games.theme":"Theme","Games.themeAuto":"Auto","Games.themeLight":"Light","Games.themeDark":"Dark","Games.install":"Install app","Games.httpRequestError":"Yella-d wugur deg tuttra.","Gallery":"Timidelt"}

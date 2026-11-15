@@ -57,14 +57,14 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.turtle', true), '',
       </svg>
     </td>
     <td style="width: 15px;">
-      <img id="spinner" style="visibility: hidden;" src="common/loading.gif" loading="lazy" height=15 width=15>
+      <img alt="" id="spinner" style="visibility: hidden;" src="common/loading.gif" loading="lazy" height=15 width=15>
     </td>
     <td style="width: 190px; text-align: center">
       <button id="runButton" class="primary" title="${BlocklyGames.getMsg('Games.runTooltip', true)}">
-        <img src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
+        <img alt="" src="common/1x1.gif" class="run icon21"> ${BlocklyGames.getMsg('Games.runProgram', true)}
       </button>
       <button id="resetButton" class="primary" style="display: none" title="${BlocklyGames.getMsg('Games.resetTooltip', true)}">
-        <img src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
+        <img alt="" src="common/1x1.gif" class="stop icon21"> ${BlocklyGames.getMsg('Games.resetProgram', true)}
       </button>
     </td>
   </tr>
@@ -99,13 +99,13 @@ Turtle.html.gallery_ = function(lang) {
         <input type="hidden" name="app" value="turtle">
         <input type="hidden" name="lang" value="${lang}">
         <button type="submit" title="${BlocklyGames.getMsg('Turtle.galleryTooltip', true)}">
-          <img src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Turtle.galleryMsg', true)}
+          <img alt="" src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Turtle.galleryMsg', true)}
         </button>
       </form>
     </td>
     <td style="text-align: center;">
       <button id="submitButton" title="${BlocklyGames.getMsg('Turtle.submitTooltip', true)}">
-        <img src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.getMsg('Turtle.submitMsg', true)}
+        <img alt="" src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.getMsg('Turtle.submitMsg', true)}
       </button>
     </td>
   </tr>
@@ -133,7 +133,7 @@ Turtle.html.gallery_ = function(lang) {
 
 /**
  * Toolboxes for each level.
- * @param {number} level Level 1-20.
+ * @param {number} level Level 1-15.
  * @returns {string} HTML.
  * @private
  */
@@ -416,7 +416,7 @@ ${colourCat}
 
 /**
  * Help dialogs for each level.
- * @param {number} level Level 1-20.
+ * @param {number} level Level 1-15.
  * @param {boolean} isHtml True if served as raw HTML files.
  * @returns {string} HTML.
  * @private
@@ -426,7 +426,7 @@ Turtle.html.helpDialogs_ = function(level, isHtml) {
   switch (level) {
     case 1:
       content = BlocklyGames.getMsg('Turtle.helpText1', true) +
-          '<br><img src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">';
+          '<br><img alt="" src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">';
       break;
     case 2:
       content = BlocklyGames.getMsg('Turtle.helpText2', true);
@@ -472,21 +472,6 @@ Turtle.html.helpDialogs_ = function(level, isHtml) {
       content = BlocklyGames.getMsg('Turtle.helpFlower', true);
       break;
     case 15:
-      content = BlocklyGames.getMsg('Turtle.helpNestedSquares', true);
-      break;
-    case 16:
-      content = BlocklyGames.getMsg('Turtle.helpTriangles', true);
-      break;
-    case 17:
-      content = BlocklyGames.getMsg('Turtle.helpStarRing', true);
-      break;
-    case 18:
-      content = BlocklyGames.getMsg('Turtle.helpRings', true);
-      break;
-    case 19:
-      content = BlocklyGames.getMsg('Turtle.helpMandala', true);
-      break;
-    case 20:
       content = BlocklyGames.getMsg('Turtle.helpText10', true);
       if (!isHtml) {
         content += '<br><br>' +
@@ -510,7 +495,7 @@ Turtle.html.helpDialogs_ = function(level, isHtml) {
 </div>
 
 <div id="helpToolbox" class="dialogHiddenContent">
-  <div><img src="turtle/help_left.png" class="mirrorImg" height=23 width=64></div>
+  <div><img alt="" src="turtle/help_left.png" class="mirrorImg" height=23 width=64></div>
   ${BlocklyGames.getMsg('Turtle.helpToolbox', true)}
 </div>
 

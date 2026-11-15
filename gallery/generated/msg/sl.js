@@ -1,2 +1,2 @@
 // Automatically generated file.  Do not edit!
-var BlocklyGamesMsg={"Games.name":"Igre Blockly","Games.turtle":"Želva","Games.movie":"Film","Games.music":"Glasba","Games.httpRequestError":"V zvezi z zahtevkom je prišlo do težave.","Gallery":"Galerija"}
+var BlocklyGamesMsg={"Games.name":"Igre Blockly","Games.turtle":"Želva","Games.movie":"Film","Games.music":"Glasba","Games.language":"Language","Games.theme":"Theme","Games.themeAuto":"Auto","Games.themeLight":"Light","Games.themeDark":"Dark","Games.install":"Install app","Games.httpRequestError":"V zvezi z zahtevkom je prišlo do težave.","Gallery":"Galerija"}

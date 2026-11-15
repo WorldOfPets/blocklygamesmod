@@ -75,13 +75,13 @@ Movie.html.gallery_ = function(lang) {
         <input type="hidden" name="app" value="movie">
         <input type="hidden" name="lang" value="${lang}">
         <button type="submit" title="${BlocklyGames.getMsg('Movie.galleryTooltip', true)}">
-          <img src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Movie.galleryMsg', true)}
+          <img alt="" src="common/1x1.gif" class="gallery icon21"> ${BlocklyGames.getMsg('Movie.galleryMsg', true)}
         </button>
       </form>
     </td>
     <td style="text-align: center;">
       <button id="submitButton" title="${BlocklyGames.getMsg('Movie.submitTooltip', true)}">
-        <img src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.getMsg('Movie.submitMsg', true)}
+        <img alt="" src="common/1x1.gif" class="camera icon21"> ${BlocklyGames.getMsg('Movie.submitMsg', true)}
       </button>
     </td>
   </tr>
@@ -109,7 +109,7 @@ Movie.html.gallery_ = function(lang) {
 
 /**
  * Toolboxes for each level.
- * @param {number} level Level 1-20.
+ * @param {number} level Level 1-15.
  * @returns {string} HTML.
  * @private
  */
@@ -420,7 +420,7 @@ Movie.html.toolbox_ = function(level) {
 
 /**
  * Help dialogs for each level.
- * @param {number} level Level 1-20.
+ * @param {number} level Level 1-15.
  * @param {boolean} isHtml True if served as raw HTML files.
  * @returns {string} HTML.
  * @private
@@ -482,21 +482,6 @@ Movie.html.helpDialogs_ = function(level, isHtml) {
       content = BlocklyGames.getMsg('Movie.helpRocket', true);
       break;
     case 15:
-      content = BlocklyGames.getMsg('Movie.helpRain', true);
-      break;
-    case 16:
-      content = BlocklyGames.getMsg('Movie.helpBounce', true);
-      break;
-    case 17:
-      content = BlocklyGames.getMsg('Movie.helpSpin', true);
-      break;
-    case 18:
-      content = BlocklyGames.getMsg('Movie.helpPendulum', true);
-      break;
-    case 19:
-      content = BlocklyGames.getMsg('Movie.helpFireworks', true);
-      break;
-    case 20:
       content = BlocklyGames.getMsg('Movie.helpText10', true);
       if (!isHtml) {
         content += '<br><br>' +

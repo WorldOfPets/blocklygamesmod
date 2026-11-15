@@ -38,14 +38,30 @@ if (location.host === 'blockly-games.appspot.com') {
   if (window['BlocklyGamesLanguages'].indexOf(lang) !== -1) {
     // Save this explicit choice as cookie.
     var exp = (new Date(Date.now() + 2 * 31536000000)).toUTCString();
-    document.cookie = 'lang=' + escape(lang) + '; expires=' + exp + 'path=/';
+    document.cookie = 'lang=' + escape(lang) + '; expires=' + exp +
+        '; path=/; SameSite=Lax';
   } else {
     // Second choice: Language cookie.
     var cookie = document.cookie.match(/(^|;)\s*lang=([\w\-]+)/);
     lang = cookie ? unescape(cookie[2]) : null;
     if (window['BlocklyGamesLanguages'].indexOf(lang) === -1) {
-      // Third choice: The browser's language.
-      lang = navigator.language;
+      // Third choice: The browser's language.  Browsers report full tags
+      // such as "en-US" or "zh-CN"; try the whole tag, then progressively
+      // shorter prefixes, and map Chinese scripts explicitly.
+      lang = (navigator.language || 'en').toLowerCase();
+      var chinese = {'zh-cn': 'zh-hans', 'zh-sg': 'zh-hans',
+                     'zh-tw': 'zh-hant', 'zh-hk': 'zh-hant',
+                     'zh-mo': 'zh-hant'};
+      if (chinese[lang]) {
+        lang = chinese[lang];
+      } else if (window['BlocklyGamesLanguages'].indexOf(lang) === -1) {
+        var parts = lang.split('-');
+        while (parts.length > 1 &&
+               window['BlocklyGamesLanguages'].indexOf(parts.join('-')) === -1) {
+          parts.pop();
+        }
+        lang = parts.join('-');
+      }
       if (window['BlocklyGamesLanguages'].indexOf(lang) === -1) {
         // Fourth choice: English.
         lang = 'en';

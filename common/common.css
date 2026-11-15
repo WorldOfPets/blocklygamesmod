@@ -17,6 +17,23 @@
   --accent-soft: #e8f0fe;
   --done: #188038;
   --done-soft: #e6f4ea;
+  /* Game surfaces that must stay light (e.g. music notation) in both themes. */
+  --paper: #ffffff;
+  /* Syntax colours.  Defining them here lets the light and dark palettes
+   * share one set of prettify rules instead of overriding them in a media
+   * query. */
+  --code-plain: #000000;
+  --code-string: #008800;
+  --code-keyword: #000088;
+  --code-comment: #880000;
+  --code-type: #666666;
+  --code-literal: #006666;
+  --code-punctuation: #666600;
+  --code-tag: #000088;
+  --code-attribute: #666666;
+  --code-value: #008800;
+  --code-declaration: #666666;
+  --code-function: #d01818;
   --radius: 8px;
   --radius-lg: 12px;
   --shadow: 0 1px 2px rgba(60, 64, 67, .12), 0 4px 12px rgba(60, 64, 67, .12);
@@ -24,6 +41,95 @@
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
 }
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --surface: #1c2128;
+  --bg: #14181d;
+  --toolbox: #22272e;
+  --flyout: #2a3038;
+  --ink: #e6edf3;
+  --ink-muted: #9aa4af;
+  --line: #30363d;
+  --line-strong: #444c56;
+  --accent: #539bf5;
+  --accent-ink: #0b1220;
+  --accent-soft: #1f3047;
+  --done: #57ab5a;
+  --done-soft: #1b2f22;
+  --code-plain: #e6edf3;
+  --code-string: #7ee787;
+  --code-keyword: #79c0ff;
+  --code-comment: #8b949e;
+  --code-type: #ffa657;
+  --code-literal: #a5d6ff;
+  --code-punctuation: #c9d1d9;
+  --code-tag: #7ee787;
+  --code-attribute: #ffa657;
+  --code-value: #a5d6ff;
+  --code-declaration: #ffa657;
+  --code-function: #d2a8ff;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 12px rgba(0, 0, 0, .4);
+  --shadow-lg: 0 2px 6px rgba(0, 0, 0, .5), 0 12px 32px rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+
+/* The OS preference only wins while the user has not made a manual choice
+ * (data-theme="auto").  The token block intentionally mirrors the one above:
+ * CSS cannot alias a whole custom-property set. */
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    --surface: #1c2128;
+    --bg: #14181d;
+    --toolbox: #22272e;
+    --flyout: #2a3038;
+    --ink: #e6edf3;
+    --ink-muted: #9aa4af;
+    --line: #30363d;
+    --line-strong: #444c56;
+    --accent: #539bf5;
+    --accent-ink: #0b1220;
+    --accent-soft: #1f3047;
+    --done: #57ab5a;
+    --done-soft: #1b2f22;
+    --code-plain: #e6edf3;
+    --code-string: #7ee787;
+    --code-keyword: #79c0ff;
+    --code-comment: #8b949e;
+    --code-type: #ffa657;
+    --code-literal: #a5d6ff;
+    --code-punctuation: #c9d1d9;
+    --code-tag: #7ee787;
+    --code-attribute: #ffa657;
+    --code-value: #a5d6ff;
+    --code-declaration: #ffa657;
+    --code-function: #d2a8ff;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 12px rgba(0, 0, 0, .4);
+    --shadow-lg: 0 2px 6px rgba(0, 0, 0, .5), 0 12px 32px rgba(0, 0, 0, .55);
+    color-scheme: dark;
+  }
+}
+
+/* prettify.css is loaded later and keeps its light palette; these
+ * ID-qualified rules win over it in both themes. */
+#containerCode .pln { color: var(--code-plain); }
+#containerCode .str { color: var(--code-string); }
+#containerCode .kwd { color: var(--code-keyword); }
+#containerCode .com { color: var(--code-comment); font-style: italic; }
+#containerCode .typ { color: var(--code-type); }
+#containerCode .lit { color: var(--code-literal); }
+#containerCode .pun,
+#containerCode .opn,
+#containerCode .clo { color: var(--code-punctuation); }
+#containerCode .tag { color: var(--code-tag); }
+#containerCode .atn { color: var(--code-attribute); }
+#containerCode .atv { color: var(--code-value); }
+#containerCode .dec,
+#containerCode .var { color: var(--code-declaration); }
+#containerCode .fun { color: var(--code-function); }
 
 body {
   background-color: var(--bg);
@@ -223,7 +329,8 @@ html[dir="RTL"] .mirrorImg {
 }
 
 /* Controls. */
-#languageMenu {
+#languageMenu,
+#themeMenu {
   margin: 12px 0;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
@@ -231,7 +338,30 @@ html[dir="RTL"] .mirrorImg {
   color: var(--ink);
   font-family: var(--font);
   font-size: .9rem;
-  padding: 6px 8px;
+  padding: 6px 28px 6px 8px;
+}
+
+#themeMenu {
+  padding-left: 10px;
+  padding-right: 10px;
+  background-image: none;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+/* Static pages without a toolbar still get a theme selector. */
+.themeMenuFixed {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 1000;
+  margin: 0;
+  box-shadow: var(--shadow);
+}
+
+html[dir="RTL"] .themeMenuFixed {
+  right: auto;
+  left: 14px;
 }
 
 select,
@@ -243,6 +373,22 @@ input[type="text"] {
   border-radius: var(--radius);
   background-color: var(--surface);
   padding: 6px 8px;
+}
+
+/* Draw our own arrow so the select follows the dark palette instead of the
+ * native light control. */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 28px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink-muted) 50%),
+    linear-gradient(135deg, var(--ink-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 16px) calc(50% - 2px),
+    calc(100% - 11px) calc(50% - 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
 }
 
 xml {
@@ -309,6 +455,28 @@ button:disabled {
 button>img {
   opacity: .7;
   vertical-align: text-bottom;
+}
+
+.installButton {
+  padding: 6px 12px;
+  font-size: .9rem;
+  border-color: var(--accent);
+  color: var(--accent);
+  background-color: var(--surface);
+}
+
+.installButtonFixed {
+  position: fixed;
+  right: 14px;
+  bottom: 54px;
+  z-index: 1000;
+  margin: 0;
+  box-shadow: var(--shadow);
+}
+
+html[dir="RTL"] .installButtonFixed {
+  right: auto;
+  left: 14px;
 }
 
 button.primary>img,
@@ -413,8 +581,8 @@ button:hover:not(:disabled)>img {
   stroke: var(--line);
 }
 
-#blockly>svg,
-.readonly>svg {
+#blockly .blocklySvg,
+.readonly .blocklySvg {
   background-color: var(--surface);
   border-radius: var(--radius);
 }

@@ -1,2 +1,2 @@
 // Automatically generated file.  Do not edit!
-var BlocklyGamesMsg={"Games.name":"C'hoarioù Blockly","Games.turtle":"Baot","Games.movie":"Film","Games.music":"Sonerezh","Games.httpRequestError":"Ur gudenn zo gant ar reked.","Gallery":"Palier"}
+var BlocklyGamesMsg={"Games.name":"C'hoarioù Blockly","Games.turtle":"Baot","Games.movie":"Film","Games.music":"Sonerezh","Games.language":"Language","Games.theme":"Theme","Games.themeAuto":"Auto","Games.themeLight":"Light","Games.themeDark":"Dark","Games.install":"Install app","Games.httpRequestError":"Ur gudenn zo gant ar reked.","Gallery":"Palier"}

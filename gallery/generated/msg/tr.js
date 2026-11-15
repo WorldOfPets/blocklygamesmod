@@ -1,2 +1,2 @@
 // Automatically generated file.  Do not edit!
-var BlocklyGamesMsg={"Games.name":"Blockly Oyunlar","Games.turtle":"Kaplumbağa","Games.movie":"Film","Games.music":"Müzik","Games.httpRequestError":"İstekle ilgili bir sorun oluştu.","Gallery":"Galeri"}
+var BlocklyGamesMsg={"Games.name":"Blockly Oyunlar","Games.turtle":"Kaplumbağa","Games.movie":"Film","Games.music":"Müzik","Games.language":"Language","Games.theme":"Theme","Games.themeAuto":"Auto","Games.themeLight":"Light","Games.themeDark":"Dark","Games.install":"Install app","Games.httpRequestError":"İstekle ilgili bir sorun oluştu.","Gallery":"Galeri"}

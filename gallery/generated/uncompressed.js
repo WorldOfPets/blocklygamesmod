@@ -8,9 +8,9 @@ window.CLOSURE_NO_DEPS = true;
       "third-party/blockly/core/utils/global.js",
       "third-party/blockly/core/msg.js",
       "src/lib-games.js",
+      "src/lib-storage.js",
       "src/html.js",
       "gallery/src/html.js",
-      "src/lib-storage.js",
       "gallery/src/main.js"
   ];
   function loadScript() {

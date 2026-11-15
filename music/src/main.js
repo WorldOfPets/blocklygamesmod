@@ -135,7 +135,7 @@ function init() {
     });
   window.addEventListener('resize', onresize);
   onresize(null);
-  // Scale the workspace so level 1 = 1.0, and level 20 = 0.7.
+  // Scale the workspace so level 1 = 1.0, and the final level = 0.7.
   const scale = 1.02727 - 0.0272727 * BlocklyGames.LEVEL;
   BlocklyInterface.injectBlockly(
       {'disable': false,
@@ -262,7 +262,7 @@ function sliderChange() {
 function drawStave(n) {
   staveCount = n;
   const staveBox = BlocklyGames.getElementById('staveBox');
-  // <img src="music/stave.png" class="stave" style="top: 100px">
+  // <img alt="" src="music/stave.png" class="stave" style="top: 100px">
   for (let i = 1; i <= n; i++) {
     const top = staveTop_(i, n);
     const img = document.createElement('img');
@@ -401,7 +401,7 @@ function drawAnswer() {
   musicContainer.innerHTML = '';
   barCount = 0;
   // Add spacer to allow scrollbar to scroll past last note/rest.
-  // <img id="musicContainerWidth" src="common/1x1.gif">
+  // <img alt="" id="musicContainerWidth" src="common/1x1.gif">
   const img = document.createElement('img');
   img.id = 'musicContainerWidth';
   img.src = 'common/1x1.gif';
@@ -981,48 +981,7 @@ function initExpectedAnswer() {
                     11, 0.125, 12, 0.125], 8), 0.5),
       repeat([0, 0.5, 4, 0.5, 7, 0.5], 4)
     ],
-    // Level 15.
-    [
-      repeat([7, 0.25, REST, 0.25, 9, 0.25, REST, 0.25,
-              11, 0.5, 9, 0.25, REST, 0.25], 4),
-      repeat([0, 0.5, 7, 0.5], 8),
-      repeat([4, 0.5, 9, 0.5], 8)
-    ],
-    // Level 16.
-    [
-      repeat([7, 0.125, 9, 0.125, 11, 0.125, 12, 0.125,
-              11, 0.125, 9, 0.125, 7, 0.125, REST, 0.125], 4),
-      repeat([0, 0.25, 4, 0.25], 8),
-      repeat([2, 0.5, 5, 0.5], 4),
-      repeat([4, 0.5, 9, 0.5], 4)
-    ],
-    // Level 17.
-    [
-      repeat([7, 0.5, 9, 0.5, 11, 0.5, 12, 0.5,
-              11, 0.5, 9, 0.5, 7, 0.5, REST, 0.5], 2),
-      repeat([0, 0.5, 4, 0.5, 7, 0.5, 4, 0.5], 4),
-      repeat([4, 0.5, 8, 0.5], 4)
-    ],
-    // Level 18.
-    [
-      repeat([9, 0.25, 11, 0.25, 12, 0.25, 11, 0.25,
-              9, 0.25, 7, 0.25, 9, 0.25, REST, 0.25], 4),
-      delay(repeat([9, 0.25, 11, 0.25, 12, 0.25, 11, 0.25,
-                    9, 0.25, 7, 0.25, 9, 0.25, REST, 0.25], 4), 1),
-      delay(repeat([9, 0.25, 11, 0.25, 12, 0.25, 11, 0.25,
-                    9, 0.25, 7, 0.25, 9, 0.25, REST, 0.25], 4), 2)
-    ],
-    // Level 19.
-    [
-      repeat([7, 0.125, 7, 0.125, 7, 0.25, 12, 0.5,
-              11, 0.25, 9, 0.25, 7, 0.5], 6),
-      repeat([5, 0.125, 5, 0.125, 5, 0.25, 9, 0.5,
-              8, 0.25, 7, 0.25, 5, 0.5], 6),
-      repeat([0, 0.5, 4, 0.5, 7, 0.5, 4, 0.5], 3),
-      delay(repeat([7, 0.125, 7, 0.125, 7, 0.25, 12, 0.5,
-                    11, 0.25, 9, 0.25, 7, 0.5], 6), 1)
-    ],
-    // Level 20.
+    // Level 15.  The final level has no expected answer.
     undefined,
   ][BlocklyGames.LEVEL - 1];
 }
@@ -1112,12 +1071,7 @@ function checkAnswer() {
     40,  // Level 12.
     48,  // Level 13.
     56,  // Level 14.
-    62,  // Level 15.
-    68,  // Level 16.
-    72,  // Level 17.
-    78,  // Level 18.
-    84,  // Level 19.
-    undefined,  // Level 20.
+    undefined,  // Level 15.
   ][BlocklyGames.LEVEL - 1];
   let blockCount = 0;
   const blocks = BlocklyInterface.workspace.getAllBlocks(false);
