@@ -225,6 +225,22 @@ BlocklyGames.storageName;
 BlocklyGames.MAX_LEVEL = 15;
 
 /**
+ * Width at or below which the game uses the touch/mobile layout.
+ * Keep in sync with the `max-width` breakpoint in common/common.css.
+ * @type {string}
+ */
+BlocklyGames.MOBILE_QUERY = '(max-width: 960px)';
+
+/**
+ * Whether the page is currently using the mobile layout.
+ * @returns {boolean} True on a narrow screen.
+ */
+BlocklyGames.isMobile = function() {
+  return !!(window.matchMedia &&
+      window.matchMedia(BlocklyGames.MOBILE_QUERY).matches);
+};
+
+/**
  * User's level (e.g. 5).
  * @type number
  */
@@ -238,6 +254,10 @@ BlocklyGames.LEVEL = window['BlocklyGamesLevel'] ||
 BlocklyGames.init = function(title) {
   document.title = BlocklyGames.getMsg('Games.name', false) +
       (title && ' : ') + title;
+  if (title) {
+    // Used by the mobile styles to hide the install button on game pages.
+    document.body.classList.add('gamePage');
+  }
 
   // Set the HTML's language and direction.
   document.dir = BlocklyGames.IS_RTL ? 'rtl' : 'ltr';
@@ -304,11 +324,12 @@ BlocklyGames.init = function(title) {
     }
   }
 
-  // Fixes viewport for small screens.
+  // Use the real device width.  The old layout forced a 725 px viewport and
+  // zoomed it down to 0.35 on phones, which made every control tiny.
   const viewport = document.querySelector('meta[name="viewport"]');
-  if (viewport && screen.availWidth < 725) {
+  if (viewport) {
     viewport.setAttribute('content',
-        'width=725, initial-scale=.35');
+        'width=device-width, initial-scale=1, viewport-fit=cover');
   }
 
 };

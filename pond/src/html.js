@@ -33,7 +33,7 @@ Pond.html.visualization = function() {
   </tbody>
 </table>
 
-<table width=400>
+<table width=400 class="controls">
   <tr>
     <td style="width: 190px; text-align: center; vertical-align: top;">
       <button id="docsButton" title="${BlocklyGames.getMsg('Pond.docsTooltip', true)}">

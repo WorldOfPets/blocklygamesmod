@@ -188,8 +188,20 @@ BlocklyInterface.codeChanged = function() {
  * @param {!Object} options Dictionary of Blockly options.
  */
 BlocklyInterface.injectBlockly = function(options) {
-  const toolbox = BlocklyGames.getElementById('toolbox');
+  let toolbox = BlocklyGames.getElementById('toolbox');
   if (toolbox) {
+    if (BlocklyGames.isMobile() && !toolbox.querySelector('category')) {
+      // A flat toolbox opens its flyout permanently.  On a phone that leaves
+      // almost no room for the workspace, so put the same blocks in a single
+      // category: the flyout then opens on demand and can be closed again.
+      const category = document.createElement('category');
+      category.setAttribute('name',
+          BlocklyGames.getMsg('Games.blocks', false));
+      while (toolbox.firstChild) {
+        category.appendChild(toolbox.firstChild);
+      }
+      toolbox.appendChild(category);
+    }
     options['toolbox'] = toolbox;
   }
   options['media'] = 'third-party/blockly/media/';
@@ -205,10 +217,34 @@ BlocklyInterface.injectBlockly = function(options) {
   // Keep the SVG in sync with the container when the window is resized.
   // Older Blockly builds have no ResizeObserver of their own.
   window.addEventListener('resize', function() {
-    if (BlocklyInterface.workspace) {
-      Blockly.svgResize(BlocklyInterface.workspace);
-    }
+    BlocklyInterface.resizeBlockly();
   });
+};
+
+/**
+ * Resize Blockly to its injection container.  Blockly caches the last size,
+ * so after a hidden pane becomes visible the SVG can stay at width 0 even
+ * when svgResize() is called.  Writing the attributes first makes the cached
+ * path correct as well.
+ */
+BlocklyInterface.resizeBlockly = function() {
+  if (!BlocklyInterface.workspace) {
+    return;
+  }
+  const injectionDiv = BlocklyInterface.workspace.getInjectionDiv();
+  if (injectionDiv) {
+    const width = injectionDiv.clientWidth;
+    const height = injectionDiv.clientHeight;
+    if (width && height) {
+      const svg = injectionDiv.querySelector('.blocklySvg');
+      if (svg) {
+        svg.setAttribute('width', width + 'px');
+        svg.setAttribute('height', height + 'px');
+      }
+    }
+  }
+  Blockly.svgResize(BlocklyInterface.workspace);
+  BlocklyInterface.workspace.resize();
 };
 
 /**

@@ -26,11 +26,11 @@ Bird.html.start = function(ij) {
 ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.bird', true), '', true, false, '')}
 
 <div id="visualization">
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px">
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px" viewBox="0 0 400 400">
   </svg>
 </div>
 
-<table width=400>
+<table width=400 class="controls">
   <tr>
     <td style="width: 190px;">
     </td>

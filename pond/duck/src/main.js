@@ -19,6 +19,7 @@ goog.require('Blockly.ZoomControls');
 goog.require('BlocklyAce');
 goog.require('BlocklyCode');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.mobile');
 goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
@@ -74,6 +75,13 @@ function init() {
        html: BlocklyGames.IS_HTML});
 
   Pond.init(BlocklyGames.getMsg('Games.pond', false));
+
+  BlocklyGames.mobile.initPanes({
+    'game': ['#visualization', '#avatarStatTable'],
+    'code': ['#tabarea'],
+    'codeLabel': 'Games.codeTab',
+    'actions': ['table.controls']
+  });
 
   // Setup the tabs.
   function tabHandler(selectedIndex) {
@@ -220,8 +228,20 @@ function changeTab(index) {
   const names = ['blockly', 'editor'];
   for (let i = 0; i < names.length; i++) {
     const div = BlocklyGames.getElementById(names[i]);
-    div.style.visibility = (i === index) ? 'visible' : 'hidden';
+    const selected = i === index;
+    div.style.visibility = selected ? 'visible' : 'hidden';
+    // Mobile puts the two editors in a flex column; display:none lets the
+    // selected one take the full height instead of sharing it with the
+    // invisible sibling.
+    div.style.display = selected ? '' : 'none';
   }
+  setTimeout(function() {
+    if (index === tabIndex.BLOCKS && BlocklyInterface.workspace) {
+      BlocklyInterface.resizeBlockly();
+    } else if (index === tabIndex.JAVASCRIPT && BlocklyInterface.editor) {
+      BlocklyInterface.editor['resize']();
+    }
+  }, 0);
   Blockly.hideChaff(false);
   // Synchronize the documentation popup.
   BlocklyGames.getElementById('docsButton').disabled = false;

@@ -29,6 +29,7 @@ Index.html.start = function(ij) {
     <a href="about${ij.html ? '.html' : ''}?lang=${ij.lang}">${BlocklyGames.getMsg('Index.moreInfo', true)}</a>
   </div>
 </div>
+<div id="desktopIndex">
 <svg height="100%" width="100%" version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -54,6 +55,19 @@ Index.html.start = function(ij) {
         Index.html.appLink_(ij, 'pond-duck', 90, 85, 'Games.pond')}
   </g>
 </svg>
+</div>
+<div id="mobileIndex">
+  ${Index.html.appTile_(ij, 'puzzle', 'Games.puzzle')}
+  ${Index.html.appTile_(ij, 'maze', 'Games.maze')}
+  ${Index.html.appTile_(ij, 'bird', 'Games.bird')}
+  ${Index.html.appTile_(ij, 'turtle', 'Games.turtle')}
+  ${Index.html.appTile_(ij, 'movie', 'Games.movie')}
+  ${Index.html.appTile_(ij, 'music', 'Games.music')}
+  ${Index.html.appTile_(ij, 'ai', 'Games.ai')}
+  ${Index.html.appTile_(ij, 'pond-tutor', 'Games.pondTutor')}
+  ${window['BlocklyGamesStandalone'] ? '' :
+      Index.html.appTile_(ij, 'pond-duck', 'Games.pond')}
+</div>
 <div id="headerControls">
   <select id="themeMenu" aria-label="${BlocklyGames.getMsg('Games.theme', true)}">
     <option value="auto">${BlocklyGames.getMsg('Games.themeAuto', true)}</option>
@@ -93,11 +107,32 @@ Index.html.start = function(ij) {
     </form>
   </div>
 </div>
-<p id="clearDataPara" style="visibility: hidden">
+<p id="clearDataPara" hidden>
   ${BlocklyGames.getMsg('Index.startOver', true)}
   <button class="secondary" id="clearData">${BlocklyGames.getMsg('Index.clearData', true)}</button>
 </p>
 </main>
+`;
+};
+
+/**
+ * Create a mobile tile for an app.
+ * @param {!Object} ij Injected options.
+ * @param {string} app Name of application.
+ * @param {string} msgName Name of text content to place in the tile.
+ * @returns {string} HTML.
+ * @private
+ */
+Index.html.appTile_ = function(ij, app, msgName) {
+  const label = BlocklyGames.getMsg(msgName, true);
+  return `
+<a class="mobileGame" id="mobileTile-${app}"
+    href="${app}${ij.html ? '.html' : ''}?lang=${ij.lang}"
+    aria-label="${label}">
+  <img src="index/${app}.png" alt="" width="72" height="72">
+  <span class="mobileGameName">${label}</span>
+  <span class="mobileGameProgress" id="mobileProgress-${app}"></span>
+</a>
 `;
 };
 

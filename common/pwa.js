@@ -48,10 +48,17 @@
     button.id = 'installButton';
     button.type = 'button';
     button.className = 'installButton';
-    button.textContent = (window['BlocklyGames'] &&
+    let label = (window['BlocklyGames'] &&
         window['BlocklyGames']['getMsg']) ?
-        window['BlocklyGames']['getMsg']('Games.install', false) :
-        'Install app';
+        window['BlocklyGames']['getMsg']('Games.install', false) : '';
+    if (!label) {
+      // This script runs before the compiled game bundle on some pages.
+      const lang = (document.documentElement.lang ||
+          navigator.language || 'en').toLowerCase();
+      label = lang.indexOf('ru') === 0 ? 'Установить приложение' :
+          'Install app';
+    }
+    button.textContent = label;
     const host = document.getElementById('headerControls') ||
         document.getElementById('header_cta');
     if (host) {

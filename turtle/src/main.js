@@ -26,6 +26,7 @@ goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGallery');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.mobile');
 goog.require('BlocklyInterface');
 goog.require('Slider');
 goog.require('Turtle.Blocks');
@@ -96,6 +97,12 @@ function init() {
        html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init(BlocklyGames.getMsg('Games.turtle', false));
+
+  BlocklyGames.mobile.initPanes({
+    'game': ['#visualization', 'table.gallery'],
+    'code': ['#blockly'],
+    'actions': ['table.controls']
+  });
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');

@@ -38,7 +38,7 @@ ${BlocklyGames.html.headerBar(ij, BlocklyGames.getMsg('Games.music', true), '', 
 <div id="musicBox">
   <div id="musicContainer"></div>
 </div>
-<table style="padding-top: 1em;">
+<table style="padding-top: 1em;" class="controls">
   <tr>
     <td style="width: 190px; text-align: center; vertical-align: top;">
       <svg
@@ -98,7 +98,7 @@ ${Music.html.helpDialogs_(ij.level, ij.html)}
  */
 Music.html.gallery_ = function(lang) {
   return `
-<table style="padding-top: 1em; width: 400px;">
+<table style="padding-top: 1em; width: 400px;" class="gallery">
   <tr>
     <td style="text-align: center;">
       <form action="/gallery" target="music-gallery">

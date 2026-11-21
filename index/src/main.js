@@ -70,13 +70,18 @@ function init() {
   }
   if (storedData) {
     const clearButtonPara = BlocklyGames.getElementById('clearDataPara');
-    clearButtonPara.style.visibility = 'visible';
+    clearButtonPara.hidden = false;
     BlocklyGames.bindClick('clearData', clearData);
   }
 
   for (let i = 0; i < levelsDone.length; i++) {
     const app = APPS[i];
     const denominator = (i === 0) ? 1 : BlocklyGames.MAX_LEVEL;
+    const mobileProgress =
+        BlocklyGames.getElementById('mobileProgress-' + app);
+    if (mobileProgress) {
+      mobileProgress.textContent = levelsDone[i] + '/' + denominator;
+    }
     const angle = levelsDone[i] / denominator * 270;
     if (angle) {
       setTimeout(animateGauge, 1500, app, 0, angle);

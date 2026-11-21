@@ -49,7 +49,7 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
 <header class="headerBar">
   <h1>
     ${BlocklyGames.html.titleSpan_(ij, appName)}
-    ${ij.level ? BlocklyGames.html.levelLinks_(ij, levelLinkSuffix) : ''}
+    ${ij.level ? `<span class="levelLinks">${BlocklyGames.html.levelLinks_(ij, levelLinkSuffix)}</span>` : ''}
   </h1>
   <div id="header_cta" class="farSide">
     <select id="themeMenu" aria-label="${BlocklyGames.getMsg('Games.theme', true)}">
@@ -76,7 +76,9 @@ BlocklyGames.html.headerBar = function(ij, appName, levelLinkSuffix,
 BlocklyGames.html.titleSpan_ = function(ij, appName) {
   return `
 <span id="title">
-  <a href="${ij.html ? 'index.html' : './'}?lang=${ij.lang}">${BlocklyGames.getMsg('Games.name', true)}</a> : ${appName}
+  <a href="${ij.html ? 'index.html' : './'}?lang=${ij.lang}"><span
+      class="titleBrand">${BlocklyGames.getMsg('Games.name', true)}</span><span
+      class="titleSep"> : </span><span class="titleApp">${appName}</span></a>
 </span>
 `;
 };
@@ -89,7 +91,7 @@ BlocklyGames.html.titleSpan_ = function(ij, appName) {
  * @private
  */
 BlocklyGames.html.levelLinks_ = function(ij, suffix) {
-  let html = ' &nbsp ';
+  let html = '';
   for (let i = 1; i <= ij.maxLevel; i++) {
     let url = `?lang=${ij.lang}&level=${i}`;
     if (suffix) {

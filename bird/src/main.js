@@ -15,6 +15,7 @@ goog.provide('Bird');
 goog.require('Bird.Blocks');
 goog.require('Bird.html');
 goog.require('Blockly.JavaScript');
+goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.Coordinate');
@@ -25,6 +26,7 @@ goog.require('Blockly.Xml');
 goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.mobile');
 goog.require('BlocklyInterface');
 
 
@@ -429,6 +431,12 @@ function init() {
        html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init(BlocklyGames.getMsg('Games.bird', false));
+
+  BlocklyGames.mobile.initPanes({
+    'game': ['#visualization'],
+    'code': ['#blockly'],
+    'actions': ['table.controls']
+  });
 
   const rtl = BlocklyGames.IS_RTL;
   const blocklyDiv = BlocklyGames.getElementById('blockly');

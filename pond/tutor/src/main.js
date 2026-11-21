@@ -18,6 +18,7 @@ goog.require('BlocklyAce');
 goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.mobile');
 goog.require('BlocklyInterface');
 goog.require('Pond');
 goog.require('Pond.Battle');
@@ -42,6 +43,14 @@ function init() {
        html: BlocklyGames.IS_HTML});
 
   Pond.init(BlocklyGames.getMsg('Games.pondTutor', false));
+
+  const hasEditor = !!BlocklyGames.getElementById('editor');
+  BlocklyGames.mobile.initPanes({
+    'game': ['#visualization', '#avatarStatTable'],
+    'code': [hasEditor ? '#editor' : '#blockly'],
+    'codeLabel': hasEditor ? 'Games.codeTab' : 'Games.blocks',
+    'actions': ['table.controls']
+  });
 
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
   if (location.hash.length < 2 &&

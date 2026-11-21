@@ -16,6 +16,7 @@ goog.require('Blockly');
 goog.require('Blockly.browserEvents');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.JavaScript');
+goog.require('Blockly.Toolbox');
 goog.require('Blockly.Trashcan');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.math');
@@ -25,6 +26,7 @@ goog.require('Blockly.Xml');
 goog.require('BlocklyCode');
 goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
+goog.require('BlocklyGames.mobile');
 goog.require('BlocklyInterface');
 goog.require('Maze.Blocks');
 goog.require('Maze.html');
@@ -494,6 +496,12 @@ function init() {
        html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init(BlocklyGames.getMsg('Games.maze', false));
+
+  BlocklyGames.mobile.initPanes({
+    'game': ['#visualization'],
+    'code': ['#blockly'],
+    'actions': ['table.controls']
+  });
 
   // Setup the Pegman menu.
   const pegmanImg = document.querySelector('#pegmanButton>img');

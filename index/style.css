@@ -403,3 +403,175 @@ a:hover > text {
   }
 }
 
+
+/* Mobile home screen: a grid of game tiles instead of the SVG path. */
+#desktopIndex {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#mobileIndex {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  #desktopIndex {
+    display: none;
+  }
+
+  #header {
+    position: static;
+    width: auto;
+    padding: max(.5em, env(safe-area-inset-top)) 1em 0;
+  }
+
+  #banner {
+    width: auto;
+    height: 36px;
+    padding: .2em;
+  }
+
+  #subtitle {
+    font-size: .85rem;
+  }
+
+  #headerControls {
+    position: static;
+    top: auto;
+    right: auto;
+    left: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .4em;
+    padding: .3em .8em;
+  }
+
+  html[dir="RTL"] #headerControls {
+    right: auto;
+    left: auto;
+  }
+
+  #headerControls select {
+    max-width: 9em;
+    padding: 4px 24px 4px 6px;
+    background-position:
+      calc(100% - 14px) calc(50% - 2px),
+      calc(100% - 9px) calc(50% - 2px);
+    font-size: .8rem;
+  }
+
+  #mobileIndex {
+    display: grid;
+    flex: 1 1 auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-content: start;
+    gap: .55em;
+    min-height: 0;
+    padding: .5em .75em;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobileGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .2em;
+    padding: .55em .25em;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    color: var(--ink);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .mobileGame:hover,
+  .mobileGame:focus {
+    border-color: var(--accent);
+    background-color: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  .mobileGame img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .mobileGameName {
+    font-size: .8rem;
+    line-height: 1.15;
+  }
+
+  .mobileGameProgress {
+    color: var(--ink-muted);
+    font-size: .72rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #progressBar {
+    position: static;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    justify-content: center;
+    gap: .3em;
+    margin: .25em .5em;
+    padding-bottom: env(safe-area-inset-bottom);
+    font-size: .8rem;
+    text-align: center;
+  }
+
+  html[dir="RTL"] #progressBar {
+    right: auto;
+    left: auto;
+  }
+
+  #progressBar button {
+    margin: 0;
+    padding: 5px 9px;
+    font-size: .8rem;
+  }
+
+  #studentBadge,
+  #importBadge {
+    max-width: 100%;
+    font-size: .75rem;
+    white-space: normal;
+  }
+
+  #progressStatus {
+    max-width: 100%;
+    font-size: .78rem;
+  }
+
+  #clearDataPara {
+    position: static;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    margin: .25em .5em .5em;
+    font-size: .8rem;
+    text-align: center;
+  }
+
+  .studentDialogCard {
+    width: 100%;
+  }
+}
+
+@media (max-width: 340px) {
+  #mobileIndex {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

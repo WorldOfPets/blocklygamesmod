@@ -335,6 +335,8 @@ html[data-theme="dark"] {
 
   #aiSidebar {
     position: static;
+    display: flex;
+    flex-direction: column;
     flex-basis: auto;
     width: 100%;
     order: 2;
@@ -348,6 +350,52 @@ html[data-theme="dark"] {
 
   #aiCanvas {
     max-width: none;
+  }
+
+  /* Keep the controls reachable without scrolling through the full
+     explanation first. */
+  #aiHelp {
+    order: 1;
+  }
+
+  #aiStats {
+    order: 2;
+  }
+
+  #aiTestInfo {
+    order: 3;
+  }
+
+  .aiGroup {
+    order: 4;
+  }
+
+  .aiSlider {
+    order: 5;
+  }
+
+  #aiK {
+    order: 6;
+  }
+
+  .aiKHelp {
+    order: 7;
+  }
+
+  .aiActions {
+    order: 8;
+  }
+
+  #aiReset {
+    order: 9;
+  }
+
+  .aiExplain {
+    order: 10;
+  }
+
+  #aiHint {
+    order: 11;
   }
 }
 
